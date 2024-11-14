@@ -7,7 +7,12 @@ function App() {
   return (
     <Router >
       <Navbar />
-      <Box className="content"/>
+      <Box className="content">
+        {/* Čia pridėkite savo Routes ir Route komponentus */}
+        <Routes>
+          {/* pvz., <Route path="/" element={<Home />} /> */}
+        </Routes>
+      </Box>
     </Router>
   );
 }
