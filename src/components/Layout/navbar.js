@@ -3,6 +3,8 @@ import { AppBar, Toolbar, IconButton, Button, Box, Menu, MenuItem, Modal, TextFi
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+
 
 export default function Navbar() {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -12,6 +14,16 @@ export default function Navbar() {
 
   const handleMenuClick = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
+
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleMenuOpen = (event) => {
+    setAnchorEl(event.currentTarget); // Atidaro meniu, kai užvedama pelė
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null); // Uždaro meniu, kai pelė palieka meniu arba mygtuką
+  };
 
   const togglePopup = () => setPopupOpen(!popupOpen);
 
@@ -23,23 +35,37 @@ export default function Navbar() {
           MyLogo
         </Typography>
 
-        {/* Elements Dropdown Menu */}
         <Box sx={{ position: 'relative' }}>
-          <Button onMouseEnter={handleMenuClick} onMouseLeave={handleMenuClose} sx={{ color: 'white' }}>
+          {/* Mygtukas su rodyklės ikona */}
+          <Button
+            onMouseEnter={handleMenuOpen}  // Atidaro meniu užvedus pelę
+            onMouseLeave={handleMenuClose} // Uždaro meniu, kai pelė palieka mygtuką
+            sx={{ color: 'white' }}
+            endIcon={<KeyboardArrowDownIcon />}
+          >
             Elements
           </Button>
+          
+          {/* Meniu, kuris atsidaro užvedus pelę ant mygtuko */}
           <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={handleMenuClose}
+            anchorEl={anchorEl} // Prikabina meniu prie mygtuko
+            open={Boolean(anchorEl)} // Atidaro meniu, kai anchorEl nėra null
+            onClose={handleMenuClose} // Uždaro meniu, kai paliekama pelė
             MenuListProps={{
-              onMouseLeave: handleMenuClose
+              onMouseLeave: handleMenuClose, // Uždaro meniu, kai pelė palieka meniu
+            }}
+            sx={{ 
+              '& .MuiMenu-paper': { 
+                top: '100%',  // Užtikrins, kad meniu atsiranda po mygtuku
+                left: 0,
+              },
             }}
           >
-            <MenuItem>Buttons</MenuItem>
-            <MenuItem>Checkboxes</MenuItem>
-            <MenuItem>Backgrounds</MenuItem>
-            <MenuItem>3D Models</MenuItem>
+            {/* Meniu elementai */}
+            <MenuItem onClick={handleMenuClose}>Buttons</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Checkboxes</MenuItem>
+            <MenuItem onClick={handleMenuClose}>Backgrounds</MenuItem>
+            <MenuItem onClick={handleMenuClose}>3D Models</MenuItem>
           </Menu>
         </Box>
 
