@@ -1,93 +1,109 @@
 import React, { useState } from 'react';
-import { AppBar, Toolbar, IconButton, Button, Box, Menu, MenuItem, Modal, TextField, Typography, useMediaQuery } from '@mui/material';
+import { AppBar, Toolbar, IconButton, Button, Box, Menu, MenuItem, Modal, TextField, Typography, useMediaQuery, Container, ButtonGroup } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import { useTheme } from '@mui/material/styles';
+import SpecialButton from './SpecialButton';
 
 
-export default function Navbar() {
+export const Navbar = () =>{
   const [anchorEl, setAnchorEl] = useState(null);
   const [popupOpen, setPopupOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const isMobile = useMediaQuery('(max-width:600px)');
+  const [activeRoute, setActiveRoute] = useState('/'); // Track the active route
 
   const handleMenuClick = (event) => setAnchorEl(event.currentTarget);
   const handleMenuClose = () => setAnchorEl(null);
-
-  const [anchorEl, setAnchorEl] = useState(null);
-
   const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget); // Atidaro meniu, kai užvedama pelė
+    setAnchorEl(event.currentTarget);
   };
-
-  const handleMenuClose = () => {
-    setAnchorEl(null); // Uždaro meniu, kai pelė palieka meniu arba mygtuką
-  };
-
   const togglePopup = () => setPopupOpen(!popupOpen);
 
+  const theme = useTheme();
+
+  // Handle active route when a button is clicked
+  const handleRouteClick = (route) => {
+    setActiveRoute(route);
+  };
+
   return (
-    <StyledAppBar position="fixed">
+    <StyledAppBar>
       <StyledToolbar>
-        {/* Logo */}
-        <Typography variant="h6" sx={{ flexGrow: 1, color: 'white' }}>
+        <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
           MyLogo
         </Typography>
 
-        <Box sx={{ position: 'relative' }}>
-          {/* Mygtukas su rodyklės ikona */}
+        <StyledBox>
+          <Box>
+            <ButtonGroup variant="text">
+              {/* Main Button */}
+              <Button
+                onMouseEnter={handleMenuOpen}
+                onMouseLeave={handleMenuClose}
+                color="primary"
+                endIcon={<KeyboardArrowDownIcon />}
+              >
+                Elements
+              </Button>
+              
+              {/* Dropdown Button */}
+              <Button
+                variant="text"
+                color="primary"
+                onClick={handleMenuOpen}
+              >
+                {/* Empty button to trigger the menu */}
+              </Button>
+            </ButtonGroup>
+
+            <Menu
+              anchorEl={anchorEl}
+              open={Boolean(anchorEl)}
+              onClose={handleMenuClose}
+              MenuListProps={{
+                onMouseLeave: handleMenuClose,
+              }}
+            >
+              <MenuItem onClick={handleMenuClose}>Buttons</MenuItem>
+              <MenuItem onClick={handleMenuClose}>Checkboxes</MenuItem>
+              <MenuItem onClick={handleMenuClose}>Backgrounds</MenuItem>
+              <MenuItem onClick={handleMenuClose}>3D Models</MenuItem>
+            </Menu>
+          </Box>
+
           <Button
-            onMouseEnter={handleMenuOpen}  // Atidaro meniu užvedus pelę
-            onMouseLeave={handleMenuClose} // Uždaro meniu, kai pelė palieka mygtuką
-            sx={{ color: 'white' }}
-            endIcon={<KeyboardArrowDownIcon />}
+            variant="text"
+            color="secondary"
+            component={Link}
+            to="/popular"
+            onClick={() => handleRouteClick('/popular')} // Update active route
+            sx={{
+              backgroundColor: activeRoute === '/popular' ? theme.palette.btn.primary : 'transparent',
+              color: activeRoute === '/popular' ? theme.palette.text.primary : 'inherit',
+            }}
           >
-            Elements
+            Popular
           </Button>
-          
-          {/* Meniu, kuris atsidaro užvedus pelę ant mygtuko */}
-          <Menu
-            anchorEl={anchorEl} // Prikabina meniu prie mygtuko
-            open={Boolean(anchorEl)} // Atidaro meniu, kai anchorEl nėra null
-            onClose={handleMenuClose} // Uždaro meniu, kai paliekama pelė
-            MenuListProps={{
-              onMouseLeave: handleMenuClose, // Uždaro meniu, kai pelė palieka meniu
-            }}
-            sx={{ 
-              '& .MuiMenu-paper': { 
-                top: '100%',  // Užtikrins, kad meniu atsiranda po mygtuku
-                left: 0,
-              },
-            }}
-          >
-            {/* Meniu elementai */}
-            <MenuItem onClick={handleMenuClose}>Buttons</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Checkboxes</MenuItem>
-            <MenuItem onClick={handleMenuClose}>Backgrounds</MenuItem>
-            <MenuItem onClick={handleMenuClose}>3D Models</MenuItem>
-          </Menu>
-        </Box>
+          <SpecialButton>
+            Contact
+          </SpecialButton>
+        </StyledBox>
 
-        {/* Popular & Contact */}
-        <Button component={Link} to="/popular" sx={{ color: 'white' }}>Popular</Button>
-        <Button component={Link} to="/contact" sx={{ color: 'white' }}>Contact</Button>
-
-        {/* Create & Login/Register */}
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button onClick={togglePopup} sx={{ color: 'white' }}>
-            {isLoggedIn ? 'Create' : 'Login/Register'}
+          <Button onClick={togglePopup} sx={{ color: theme.palette.text.primary, textTransform: 'none' }}>
+            {isLoggedIn ? 'Create' : 'Login/Signup'}
           </Button>
-          <IconButton onClick={togglePopup} sx={{ color: 'white' }}>
-            <AccountCircleIcon />
+          <IconButton onClick={togglePopup} sx={{ color: theme.palette.text.primary }}>
+            {isLoggedIn ? <AccountCircleIcon /> : ''}
           </IconButton>
         </Box>
       </StyledToolbar>
 
-      {/* Modal for Login/Register */}
       <Modal open={popupOpen} onClose={togglePopup}>
         <Box sx={modalStyle}>
-          <Typography variant="h6" gutterBottom>{isLoggedIn ? 'Create Account' : 'Login/Register'}</Typography>
+          <Typography variant="h6" gutterBottom>{isLoggedIn ? 'Create Account' : 'Login'}</Typography>
           <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 2 }} />
           <TextField label="Password" type="password" variant="outlined" fullWidth sx={{ mb: 2 }} />
           <Button variant="contained" fullWidth>
@@ -100,16 +116,29 @@ export default function Navbar() {
       </Modal>
     </StyledAppBar>
   );
-}
+};
 
-const StyledAppBar = styled(AppBar)(({ theme }) => ({
-  backgroundColor: theme.palette.primary.main,
-  zIndex: theme.zIndex.drawer + 1,
+export default Navbar;
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  display:'flex',
+  flexDirection:'row',
+  justifySelf:'flex-end',
+  flexGrow:1,
+  width:'100%',
+  marginLeft:'2rem',
+  gap:'1rem'
+}));
+
+const StyledAppBar = styled(Box)(({ theme }) => ({
+  backgroundColor: theme.palette.background.default,
+  width:"100%",
 }));
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({
   display: 'flex',
   justifyContent: 'space-between',
+
 }));
 
 const modalStyle = {

@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
-import Navbar from './components/Layout/navbar';
-import { darkTheme } from './theme';
+import { Navbar } from './components/Layout/navbar';
+import { darkTheme } from './styles/theme';
+import { CssBaseline } from '@mui/material';
 
 
 function App() {

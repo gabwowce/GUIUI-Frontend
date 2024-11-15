@@ -5,13 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 import { Provider } from 'react-redux';
-import store from './store';
+import store from './redux/store';
 
-ReactDOM.render(
+// Create a root element
+const root = ReactDOM.createRoot(document.getElementById('root'));
+
+// Render the app using the root
+root.render(
   <Provider store={store}>
     <App />
-  </Provider>,
-  document.getElementById('root')
+  </Provider>
 );
 
 reportWebVitals();
