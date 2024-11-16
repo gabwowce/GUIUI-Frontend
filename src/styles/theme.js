@@ -1,3 +1,4 @@
+import { Padding } from '@mui/icons-material';
 import { createTheme } from '@mui/material/styles';
 
 // Tamsios temos spalvų nustatymai
@@ -16,8 +17,8 @@ export const darkPalette = {
     secondary: '151515' // Tamsus tekstas
   },
   btn:{
-    primary:'#473E41',
-    primaryHover:'#544B4E',
+    primary:'rgba(71,62,65,0.3)',
+    primaryHover:'rgba(84,75,78,0.5)',
   }
  
 };
@@ -138,25 +139,42 @@ export const darkTheme = createTheme({
         root: {
           textTransform: 'none', 
           borderRadius: '8px',
+          padding: '8px 16px',
         },
-        toggle: {
+        text: {
           backgroundColor: 'transparent',
           color: darkPalette.text.primary,
           '&:hover': {
             backgroundColor: darkPalette.btn.primary,
           },
-          '&:selected': {
+        },
+        textLeft: {
+          display: 'flex', 
+          justifyContent: 'flex-start', 
+          textAlign: 'left',
+          backgroundColor: 'transparent',
+          color: darkPalette.text.primary,
+          '&:hover': {
             backgroundColor: darkPalette.btn.primary,
           },
         },
-        primary: {
+        menuItem: {
+          display: 'flex', 
+          justifyContent: 'flex-start', 
+          textAlign: 'left',
           backgroundColor: darkPalette.btn.primary,
           color: darkPalette.text.primary,
           '&:hover': {
             backgroundColor: darkPalette.btn.primaryHover,
           },
         },
-        
+        outlined: {
+         border:`1px solid ${darkPalette.text.primary}`,
+         color: darkPalette.text.primary,
+          '&:hover': {
+            backgroundColor: darkPalette.btn.primaryHover,
+          },
+        },
       
       },
     },

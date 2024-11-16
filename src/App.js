@@ -5,6 +5,10 @@ import { Navbar } from './components/Layout/navbar';
 import { darkTheme } from './styles/theme';
 import { CssBaseline } from '@mui/material';
 
+import Elements from './pages/Elements';
+import Create from './pages/Create';
+import Popular from './pages/Popular';
+import Contact from './pages/Contact';
 
 function App() {
   return (
@@ -14,8 +18,11 @@ function App() {
         <Navbar />
         <Box className="content">
           <Routes>
-            {/* Čia galite pridėti savo routes */}
-            {/* pvz., <Route path="/" element={<Home />} /> */}
+            <Route path="/elements" element={<Elements />} />
+            <Route path="/popular" element={<Popular />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/create" element={<Create />} />
+            <Route path="/" element={<Elements />} /> 
           </Routes>
         </Box>
       </Router>
@@ -24,3 +31,4 @@ function App() {
 }
 
 export default App;
+

@@ -6,102 +6,99 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useTheme } from '@mui/material/styles';
 import SpecialButton from './SpecialButton';
-
+import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import SmartButtonIcon from '@mui/icons-material/SmartButton';
+import WallpaperIcon from '@mui/icons-material/Wallpaper';
+import ViewInArIcon from '@mui/icons-material/ViewInAr';
+import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import ListAltIcon from '@mui/icons-material/ListAlt';
+import InputIcon from '@mui/icons-material/Input';
+import SignupModal from './Login/SignupModal';
 
 export const Navbar = () =>{
-  const [anchorEl, setAnchorEl] = useState(null);
   const [popupOpen, setPopupOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [activeRoute, setActiveRoute] = useState('/'); // Track the active route
-
-  const handleMenuClick = (event) => setAnchorEl(event.currentTarget);
-  const handleMenuClose = () => setAnchorEl(null);
-  const handleMenuOpen = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
+  const [activeRoute, setActiveRoute] = useState('/'); 
   const togglePopup = () => setPopupOpen(!popupOpen);
 
   const theme = useTheme();
 
-  // Handle active route when a button is clicked
   const handleRouteClick = (route) => {
     setActiveRoute(route);
   };
+
+  const [hovered, setHovered] = useState(false);
+  const handleMouseEnter = () => setHovered(true);
+  const handleMouseLeave = () => setHovered(false);
 
   return (
     <StyledAppBar>
       <StyledToolbar>
         <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
-          MyLogo
+          GUIUI
         </Typography>
-
         <StyledBox>
-          <Box>
-            <ButtonGroup variant="text">
-              {/* Main Button */}
-              <Button
-                onMouseEnter={handleMenuOpen}
-                onMouseLeave={handleMenuClose}
-                color="primary"
-                endIcon={<KeyboardArrowDownIcon />}
-              >
-                Elements
-              </Button>
-              
-              {/* Dropdown Button */}
-              <Button
-                variant="text"
-                color="primary"
-                onClick={handleMenuOpen}
-              >
-                {/* Empty button to trigger the menu */}
-              </Button>
-            </ButtonGroup>
+          <Box sx={{position:'relative'}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+            <Button
+              variant="text"
+              component={Link}
+              endIcon={<KeyboardArrowDownIcon />}
+              to="/elements"
+              sx={(theme) => toggleStyle({ activeRoute, theme, route: "elements" })}
+              onClick={() => handleRouteClick('/elements')}>
+              Elements
+            </Button>
 
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleMenuClose}
-              MenuListProps={{
-                onMouseLeave: handleMenuClose,
-              }}
-            >
-              <MenuItem onClick={handleMenuClose}>Buttons</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Checkboxes</MenuItem>
-              <MenuItem onClick={handleMenuClose}>Backgrounds</MenuItem>
-              <MenuItem onClick={handleMenuClose}>3D Models</MenuItem>
-            </Menu>
+            {
+              hovered &&
+
+              <StyledMenu>
+                <Button variant="menuItem" startIcon={<ImportContactsIcon />}>All</Button>
+                <Button variant="menuItem" startIcon={<SmartButtonIcon />}>Buttons</Button>
+                <Button variant="menuItem" startIcon={<WallpaperIcon />}>Backgrounds</Button>
+                <Button variant="menuItem" startIcon={<ViewInArIcon />}>3D Models</Button>
+                <Button variant="menuItem" startIcon={<ViewCarouselIcon />}>Cards</Button>
+                <Button variant="menuItem" startIcon={<AutorenewIcon />}>Loaders</Button>
+                <Button variant="menuItem" startIcon={<ListAltIcon />}>Forms</Button>
+                <Button variant="menuItem" startIcon={<InputIcon />}>Inputs</Button>
+              </StyledMenu>
+            }
+
+            
           </Box>
-
+          
           <Button
             variant="text"
-            color="secondary"
             component={Link}
             to="/popular"
-            onClick={() => handleRouteClick('/popular')} // Update active route
-            sx={{
-              backgroundColor: activeRoute === '/popular' ? theme.palette.btn.primary : 'transparent',
-              color: activeRoute === '/popular' ? theme.palette.text.primary : 'inherit',
-            }}
-          >
+            onClick={() => handleRouteClick('/popular')} 
+            sx={(theme) => toggleStyle({ activeRoute, theme, route: "popular" })}>
             Popular
           </Button>
-          <SpecialButton>
+          <Button
+            variant="text"
+            component={Link}
+            to="/contact"
+            onClick={() => handleRouteClick('/contact')} 
+            sx={(theme) => toggleStyle({ activeRoute, theme, route: "contact" })}>
             Contact
-          </SpecialButton>
+          </Button>
         </StyledBox>
 
-        <Box sx={{ display: 'flex', alignItems: 'center' }}>
-          <Button onClick={togglePopup} sx={{ color: theme.palette.text.primary, textTransform: 'none' }}>
-            {isLoggedIn ? 'Create' : 'Login/Signup'}
+        <Box sx={boxStyle}>
+          <SpecialButton>Create</SpecialButton>
+          <Button variant="toggle" onClick={togglePopup}>
+            {isLoggedIn ? 
+            <IconButton onClick={togglePopup} sx={{ color: theme.palette.text.primary }}>
+              <AccountCircleIcon />
+            </IconButton>
+            : 'Login/Signup'}
           </Button>
-          <IconButton onClick={togglePopup} sx={{ color: theme.palette.text.primary }}>
-            {isLoggedIn ? <AccountCircleIcon /> : ''}
-          </IconButton>
         </Box>
       </StyledToolbar>
 
-      <Modal open={popupOpen} onClose={togglePopup}>
+      {/* <Modal open={popupOpen} onClose={togglePopup}>
         <Box sx={modalStyle}>
           <Typography variant="h6" gutterBottom>{isLoggedIn ? 'Create Account' : 'Login'}</Typography>
           <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 2 }} />
@@ -113,12 +110,42 @@ export const Navbar = () =>{
             {isLoggedIn ? 'Already have an account? Login' : 'Don’t have an account? Register'}
           </Button>
         </Box>
-      </Modal>
+      </Modal> */}
+
+      <SignupModal hoverEffectEnabled={true} open={popupOpen} onClose={togglePopup}/>
     </StyledAppBar>
   );
 };
 
 export default Navbar;
+
+
+
+const StyledMenu = styled(Box)(({ theme }) => ({
+  position:'absolute',
+  borderRadius:'8px',
+  background: theme.palette.background.default,
+  border: `1px solid ${theme.palette.btn.primary}`,
+  display: 'grid', // nustatome grid išdėstymą
+  gridTemplateColumns: '1fr 1fr', // du stulpeliai, abu užima po 50% vietos
+  gap: theme.spacing(1.5),
+  width:'400px',
+  padding:'1rem',
+  zIndex:9999,
+
+}));
+
+const toggleStyle = ({activeRoute, theme, route}) =>({
+    backgroundColor: activeRoute ===  `/${route}` ? theme.palette.btn.primary : 'transparent',
+    color: activeRoute === `/${route}` ? theme.palette.text.primary : 'inherit',
+  }); 
+
+const boxStyle ={
+  display:'flex',
+  flexDirection:'row',
+  justifySelf:'center',
+  gap:'1rem'
+}
 
 const StyledBox = styled(Box)(({ theme }) => ({
   display:'flex',
