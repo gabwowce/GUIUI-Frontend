@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux'; 
 import { AppBar, Toolbar, IconButton, Button, Box, Menu, MenuItem, Modal, TextField, Typography, useMediaQuery, Container, ButtonGroup } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
@@ -16,11 +17,14 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import InputIcon from '@mui/icons-material/Input';
 import SignupModal from './Login/SignupModal';
 
-export const Navbar = () =>{
+export const Navbar = () => {
   const [popupOpen, setPopupOpen] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [activeRoute, setActiveRoute] = useState('/'); 
   const togglePopup = () => setPopupOpen(!popupOpen);
+
+  // Naudojame useSelector, kad gautume prisijungusio vartotojo informaciją
+  const user = useSelector((state) => state.auth.user);  // Tiesiog paimame 'user' iš authReducer
+  const isLoggedIn = user !== null; // Jei vartotojas yra, tai jis prisijungęs
 
   const theme = useTheme();
 
@@ -52,7 +56,6 @@ export const Navbar = () =>{
 
             {
               hovered &&
-
               <StyledMenu>
                 <Button variant="menuItem" startIcon={<ImportContactsIcon />}>All</Button>
                 <Button variant="menuItem" startIcon={<SmartButtonIcon />}>Buttons</Button>
@@ -65,7 +68,6 @@ export const Navbar = () =>{
               </StyledMenu>
             }
 
-            
           </Box>
           
           <Button
@@ -87,30 +89,19 @@ export const Navbar = () =>{
         </StyledBox>
 
         <Box sx={boxStyle}>
-          <SpecialButton>Create</SpecialButton>
+          {/* {
+            isLoggedIn && <SpecialButton>Create</SpecialButton>  
+          } */}
+          <SpecialButton component={Link} to="/create" onClick={() => handleRouteClick('/create')}>Create</SpecialButton>  
           <Button variant="toggle" onClick={togglePopup}>
             {isLoggedIn ? 
-            <IconButton onClick={togglePopup} sx={{ color: theme.palette.text.primary }}>
-              <AccountCircleIcon />
-            </IconButton>
-            : 'Login/Signup'}
+              <IconButton onClick={togglePopup} sx={{ color: theme.palette.text.primary }}>
+                <AccountCircleIcon />
+              </IconButton> 
+              : 'Login/Signup'}
           </Button>
         </Box>
       </StyledToolbar>
-
-      {/* <Modal open={popupOpen} onClose={togglePopup}>
-        <Box sx={modalStyle}>
-          <Typography variant="h6" gutterBottom>{isLoggedIn ? 'Create Account' : 'Login'}</Typography>
-          <TextField label="Email" variant="outlined" fullWidth sx={{ mb: 2 }} />
-          <TextField label="Password" type="password" variant="outlined" fullWidth sx={{ mb: 2 }} />
-          <Button variant="contained" fullWidth>
-            {isLoggedIn ? 'Create Account' : 'Login'}
-          </Button>
-          <Button onClick={() => setIsLoggedIn(!isLoggedIn)} sx={{ mt: 2, textAlign: 'center' }}>
-            {isLoggedIn ? 'Already have an account? Login' : 'Don’t have an account? Register'}
-          </Button>
-        </Box>
-      </Modal> */}
 
       <SignupModal hoverEffectEnabled={true} open={popupOpen} onClose={togglePopup}/>
     </StyledAppBar>
@@ -118,6 +109,7 @@ export const Navbar = () =>{
 };
 
 export default Navbar;
+
 
 
 

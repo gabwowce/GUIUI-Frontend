@@ -84,10 +84,10 @@ export const darkTheme = createTheme({
       fontSize: '1.5rem',
       fontWeight: 400,
       [createTheme().breakpoints.down('md')]: {
-        fontSize: '1rem',
+        fontSize: '1.4rem',
       },
       [createTheme().breakpoints.down('sm')]: {
-        fontSize: '0.8rem',
+        fontSize: '1.3rem',
       },
     },
     subtitle1: {
