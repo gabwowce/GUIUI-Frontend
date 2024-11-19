@@ -37,7 +37,7 @@ export const Navbar = () => {
   const handleMouseLeave = () => setHovered(false);
 
   return (
-    <StyledAppBar>
+    <StyledAppBar maxWidth={false}> 
       <StyledToolbar>
         <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
           GUIUI
@@ -149,9 +149,10 @@ const StyledBox = styled(Box)(({ theme }) => ({
   gap:'1rem'
 }));
 
-const StyledAppBar = styled(Box)(({ theme }) => ({
+const StyledAppBar = styled(Container)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   width:"100%",
+  maxWidth: '2560px'
 }));
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({

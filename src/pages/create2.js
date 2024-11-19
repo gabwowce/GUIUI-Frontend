@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
-import { Tabs, Tab, Box } from '@mui/material';
+import { Tabs, Tab, Box, Typography, Switch } from '@mui/material';
 
 // Import basic CodeMirror styles and themes
 import 'codemirror/lib/codemirror.css';
@@ -45,11 +45,20 @@ const Create = () => {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
+   <Box>
+    <Box>
+        <Box>
+            <Typography>
 
-    {/* Right Panel - Preview */}
-    <div style={{ width: '67%', padding: '20px' }}>
-        <h2>Preview</h2>
+            </Typography>
+            <Switch>
+
+            </Switch>
+            <Selection>
+
+            </Selection>
+        </Box>
+
         <iframe
           title="Preview"
           srcDoc={generateCode()}
@@ -61,13 +70,12 @@ const Create = () => {
             boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
           }}
         ></iframe>
-      </div>
-      
-      {/* Left Panel - HTML, CSS, JS Editors */}
-      <div style={{ width: '33%', padding: '20px', borderRight: '2px solid #ddd', background: '#f4f4f4' }}>
-        <Box sx={{ width: '100%' }}>
-          {/* MUI Tabs with custom styling for browser-like appearance */}
-          <Tabs
+
+
+    </Box>
+    <Box>
+
+    <Tabs
             value={activeTab}
             onChange={handleTabChange}
             aria-label="editor tabs"
@@ -121,9 +129,9 @@ const Create = () => {
               }}
             />
           </Tabs>
-        </Box>
 
-        {/* HTML, CSS, JavaScript Editors */}
+
+          {/* HTML, CSS, JavaScript Editors */}
         {activeTab === 0 && (
           <div>
             <h2>HTML</h2>
@@ -179,8 +187,8 @@ const Create = () => {
         )}
       </div>
 
-      
-    </div>
+    </Box>
+   </Box>
   );
 };
 
