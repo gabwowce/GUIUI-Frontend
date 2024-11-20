@@ -3,6 +3,16 @@ import { createTheme } from '@mui/material/styles';
 
 // Tamsios temos spalvų nustatymai
 export const darkPalette = {
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 960,
+      lg: 1280,
+      xl: 1920,
+      xxl: 2060, 
+    },
+  },
   primary: {
     main: '#7B113A', 
   },
@@ -140,6 +150,7 @@ export const darkTheme = createTheme({
           textTransform: 'none', 
           borderRadius: '8px',
           padding: '8px 16px',
+          fontSize:'1rem'
         },
         text: {
           backgroundColor: 'transparent',

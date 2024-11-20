@@ -16,6 +16,7 @@ import AutorenewIcon from '@mui/icons-material/Autorenew';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import InputIcon from '@mui/icons-material/Input';
 import SignupModal from './Login/SignupModal';
+import logo from '../../assets/logo.png';
 
 export const Navbar = () => {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -39,9 +40,7 @@ export const Navbar = () => {
   return (
     <StyledAppBar maxWidth={false}> 
       <StyledToolbar>
-        <Typography variant="h6" sx={{ color: theme.palette.text.primary }}>
-          GUIUI
-        </Typography>
+        <Box component="img" src={logo} alt="logo" sx={{width:'80px', height:"25px"}}/>
         <StyledBox>
           <Box sx={{position:'relative'}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
             <Button
