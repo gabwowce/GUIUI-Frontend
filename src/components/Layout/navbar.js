@@ -152,7 +152,7 @@ const StyledBox = styled(Box)(({ theme }) => ({
 const StyledAppBar = styled(Container)(({ theme }) => ({
   backgroundColor: theme.palette.background.default,
   width:"100%",
-  maxWidth: '2560px'
+  maxWidth: '2260px'
 }));
 
 const StyledToolbar = styled(Toolbar)(({ theme }) => ({

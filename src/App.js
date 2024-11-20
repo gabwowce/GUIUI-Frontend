@@ -32,9 +32,9 @@ function App() {
 }
 
 const StyledContainer = styled(Container)(({ theme }) => ({
-  backgroundColor: theme.palette.background.default,
-  width:"100%",
-  maxWidth: '2560px'
+  // backgroundColor: theme.palette.background.default,
+  // width:"100%",
+  maxWidth: '2260px'
 }));
 
 

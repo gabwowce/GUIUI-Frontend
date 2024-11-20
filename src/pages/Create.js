@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Controlled as CodeMirror } from 'react-codemirror2';
-import { Tabs, Tab, Box } from '@mui/material';
+import { Tabs, Tab, Box, Container } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 // Import basic CodeMirror styles and themes
 import 'codemirror/lib/codemirror.css';
@@ -45,143 +46,140 @@ const Create = () => {
   };
 
   return (
-    <div style={{ display: 'flex', height: '100vh' }}>
-
-    {/* Right Panel - Preview */}
-    <div style={{ width: '67%', padding: '20px' }}>
-        <h2>Preview</h2>
-        <iframe
-          title="Preview"
-          srcDoc={generateCode()}
-          width="100%"
-          height="100%"
-          style={{
-            border: 'none',
-            borderRadius: '5px',
-            boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-          }}
-        ></iframe>
-      </div>
-      
-      {/* Left Panel - HTML, CSS, JS Editors */}
-      <div style={{ width: '33%', padding: '20px', borderRight: '2px solid #ddd', background: '#f4f4f4' }}>
-        <Box sx={{ width: '100%' }}>
-          {/* MUI Tabs with custom styling for browser-like appearance */}
-          <Tabs
-            value={activeTab}
-            onChange={handleTabChange}
-            aria-label="editor tabs"
-            variant="fullWidth"
-            sx={{
-              '& .MuiTabs-indicator': {
-                display: 'none', // Hide the default indicator
-              },
+    <StyledBox maxWidth={false}>
+      <PreviewBox>
+          <h2>Preview</h2>
+          <iframe
+            title="Preview"
+            srcDoc={generateCode()}
+            width="100%"
+            height="100%"
+            style={{
+              border: 'none',
+              borderRadius: '5px',
+              boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
             }}
-          >
-            <Tab
-              label="HTML"
+          ></iframe>
+      </PreviewBox>
+        
+
+      <CodeBox>
+          <TabBox>
+            <Tabs
+              value={activeTab}
+              onChange={handleTabChange}
+              aria-label="editor tabs"
+              variant="fullWidth"
               sx={{
-                borderRadius: '20px 20px 0 0',
-                textTransform: 'none',
-                padding: '10px 20px',
-                margin: '0 5px',
-                backgroundColor: activeTab === 0 ? '#4CAF50' : '#f4f4f4',
-                color: activeTab === 0 ? 'white' : 'black',
-                '&:hover': {
-                  backgroundColor: activeTab === 0 ? '#45a049' : '#e0e0e0',
+                '& .MuiTabs-indicator': {
+                  display: 'none', // Hide the default indicator
                 },
-              }}
-            />
-            <Tab
-              label="CSS"
-              sx={{
-                borderRadius: '20px 20px 0 0',
-                textTransform: 'none',
-                padding: '10px 20px',
-                margin: '0 5px',
-                backgroundColor: activeTab === 1 ? '#4CAF50' : '#f4f4f4',
-                color: activeTab === 1 ? 'white' : 'black',
-                '&:hover': {
-                  backgroundColor: activeTab === 1 ? '#45a049' : '#e0e0e0',
-                },
-              }}
-            />
-            <Tab
-              label="JavaScript"
-              sx={{
-                borderRadius: '20px 20px 0 0',
-                textTransform: 'none',
-                padding: '10px 20px',
-                margin: '0 5px',
-                backgroundColor: activeTab === 2 ? '#4CAF50' : '#f4f4f4',
-                color: activeTab === 2 ? 'white' : 'black',
-                '&:hover': {
-                  backgroundColor: activeTab === 2 ? '#45a049' : '#e0e0e0',
-                },
-              }}
-            />
-          </Tabs>
-        </Box>
+              }}>
+              <StyledTab label="HTML" activeTab={activeTab} tabIndex={0}/>
+              <StyledTab label="CSS" activeTab={activeTab} tabIndex={1}/>
+              <StyledTab label="JavaScript" activeTab={activeTab} tabIndex={2}/>
+            </Tabs>
+          </TabBox>
 
-        {/* HTML, CSS, JavaScript Editors */}
-        {activeTab === 0 && (
-          <div>
-            <h2>HTML</h2>
-            <CodeMirror
-              value={html}
-              options={{
-                mode: 'htmlmixed', // HTML mode
-                theme: 'material', // Theme
-                lineNumbers: true,
-                lineWrapping: true,
-                indentUnit: 2,
-              }}
-              onBeforeChange={(editor, data, value) => setHtml(value)}
-              style={{ height: '200px', marginBottom: '20px' }}
-            />
-          </div>
-        )}
+          {/* HTML, CSS, JavaScript Editors */}
+          {activeTab === 0 && (
+            <MirrorBox>
+              <CodeMirror
+                value={html}
+                options={{
+                  mode: 'htmlmixed', // HTML mode
+                  theme: 'material', // Theme
+                  lineNumbers: true,
+                  lineWrapping: true,
+                  indentUnit: 2,
+                }}
+                onBeforeChange={(editor, data, value) => setHtml(value)}
+                style={{ height: '100%', marginBottom: '20px' }}
+              />
+            </MirrorBox>
+          )}
 
-        {activeTab === 1 && (
-          <div>
-            <h2>CSS</h2>
-            <CodeMirror
-              value={css}
-              options={{
-                mode: 'css', // CSS mode
-                theme: 'material', // Theme
-                lineNumbers: true,
-                lineWrapping: true,
-                indentUnit: 2,
-              }}
-              onBeforeChange={(editor, data, value) => setCss(value)}
-              style={{ height: '200px', marginBottom: '20px' }}
-            />
-          </div>
-        )}
+          {activeTab === 1 && (
+            <MirrorBox>
+              <CodeMirror
+                value={css}
+                options={{
+                  mode: 'css', // CSS mode
+                  theme: 'material', // Theme
+                  lineNumbers: true,
+                  lineWrapping: true,
+                  indentUnit: 2,
+                }}
+                onBeforeChange={(editor, data, value) => setCss(value)}
+                style={{ height: '200px', marginBottom: '20px' }}
+              />
+            </MirrorBox>
+          )}
 
-        {activeTab === 2 && (
-          <div>
-            <h2>JavaScript</h2>
-            <CodeMirror
-              value={js}
-              options={{
-                mode: 'javascript', // JavaScript mode
-                theme: 'material', // Theme
-                lineNumbers: true,
-                lineWrapping: true,
-                indentUnit: 2,
-              }}
-              onBeforeChange={(editor, data, value) => setJs(value)}
-              style={{ height: '200px', marginBottom: '20px' }}
-            />
-          </div>
-        )}
-      </div>
-
-      
-    </div>
+          {activeTab === 2 && (
+            <MirrorBox>
+              <CodeMirror
+                value={js}
+                options={{
+                  mode: 'javascript', // JavaScript mode
+                  theme: 'material', // Theme
+                  lineNumbers: true,
+                  lineWrapping: true,
+                  indentUnit: 2,
+                }}
+                onBeforeChange={(editor, data, value) => setJs(value)}
+                style={{ height: '200px', marginBottom: '20px' }}
+              />
+            </MirrorBox>
+          )}
+      </CodeBox> 
+    </StyledBox>
   );
 };
+
+const MirrorBox = styled(Box)(({ theme }) => ({
+  width: '100%',
+  height:'100vh' 
+ }));
+
+
+const StyledTab = styled(Tab)(({ activeTab, tabIndex }) => ({
+    borderRadius: '10px 10px 0 0',
+    textTransform: 'none',
+    // padding: '5px 10px',
+    minHeight:'35px',
+    padding:'0',
+    margin: '0 -1px 0 0',
+    backgroundColor: activeTab === tabIndex ? '#757575' : '#f4f4f4',
+    color: activeTab === tabIndex ? 'white' : 'black',
+    zIndex: activeTab ? 2 : 1,
+    '&:hover': {
+      backgroundColor: activeTab === tabIndex ? '#45a049' : '#e0e0e0',
+    },
+ }));
+
+
+const TabBox = styled(Box)(({ theme }) => ({
+  width: '50%', 
+ }));
+
+const CodeBox = styled(Box)(({ theme }) => ({
+  width: '50%', 
+  padding: '0px', 
+}));
+
+
+const StyledBox = styled(Container)(({ theme }) => ({
+  display: 'flex', 
+  height: '100vh',
+}));
+
+
+const PreviewBox = styled(Box)(({ theme }) => ({
+  width: '50%',
+  padding: '0px',
+  background:'white'
+
+}));
 
 export default Create;
