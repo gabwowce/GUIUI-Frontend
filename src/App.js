@@ -10,6 +10,7 @@ import Elements from './pages/Elements';
 import Create from './pages/Create';
 import Popular from './pages/Popular';
 import Contact from './pages/Contact';
+import Generators from './pages/Generators';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <StyledContainer maxWidth={false}>
           <Routes>
             <Route path="/elements" element={<Elements />} />
+            <Route path="/generators" element={<Generators />} />
             <Route path="/popular" element={<Popular />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/create" element={<Create />} />

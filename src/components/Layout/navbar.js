@@ -17,6 +17,7 @@ import ListAltIcon from '@mui/icons-material/ListAlt';
 import InputIcon from '@mui/icons-material/Input';
 import SignupModal from './Login/SignupModal';
 import logo from '../../assets/logo.png';
+import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
 
 export const Navbar = () => {
   const [popupOpen, setPopupOpen] = useState(false);
@@ -33,16 +34,22 @@ export const Navbar = () => {
     setActiveRoute(route);
   };
 
-  const [hovered, setHovered] = useState(false);
-  const handleMouseEnter = () => setHovered(true);
-  const handleMouseLeave = () => setHovered(false);
+  const [hovered, setHovered] = useState({ elements: false, generators: false });
+
+  const handleMouseEnter = (type) => {
+    setHovered((prevState) => ({ ...prevState, [type]: true }));
+  };
+  
+  const handleMouseLeave = (type) => {
+    setHovered((prevState) => ({ ...prevState, [type]: false }));
+  };
 
   return (
     <StyledAppBar maxWidth={false}> 
       <StyledToolbar>
         <Box component="img" src={logo} alt="logo" sx={{width:'80px', height:"25px"}}/>
         <StyledBox>
-          <Box sx={{position:'relative'}} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+          <Box sx={{position:'relative'}} onMouseEnter={() => handleMouseEnter('elements')} onMouseLeave={() => handleMouseLeave('elements')}>
             <Button
               variant="text"
               component={Link}
@@ -54,7 +61,7 @@ export const Navbar = () => {
             </Button>
 
             {
-              hovered &&
+              hovered.elements &&
               <StyledMenu>
                 <Button variant="menuItem" startIcon={<ImportContactsIcon />}>All</Button>
                 <Button variant="menuItem" startIcon={<SmartButtonIcon />}>Buttons</Button>
@@ -64,6 +71,32 @@ export const Navbar = () => {
                 <Button variant="menuItem" startIcon={<AutorenewIcon />}>Loaders</Button>
                 <Button variant="menuItem" startIcon={<ListAltIcon />}>Forms</Button>
                 <Button variant="menuItem" startIcon={<InputIcon />}>Inputs</Button>
+              </StyledMenu>
+            }
+
+          </Box>
+
+          <Box sx={{position:'relative'}} onMouseEnter={() => handleMouseEnter('generators')} onMouseLeave={() => handleMouseLeave('generators')}>
+            <Button
+              variant="text"
+              component={Link}
+              endIcon={<KeyboardArrowDownIcon />}
+              to="/generators"
+              sx={(theme) => toggleStyle({ activeRoute, theme, route: "generators" })}
+              onClick={() => handleRouteClick('/generators')}>
+              Generators
+            </Button>
+
+            {
+              hovered.generators &&
+              <StyledMenu>
+                <Button variant="menuItem" startIcon={<SmartButtonIcon />}>Button</Button>
+                <Button variant="menuItem" startIcon={<WallpaperIcon />}>Backgrounds</Button>
+                <Button variant="menuItem" startIcon={<ViewCarouselIcon />}>Card</Button>
+                <Button variant="menuItem" startIcon={<AutorenewIcon />}>Loader</Button>
+                <Button variant="menuItem" startIcon={<ListAltIcon />}>Forms</Button>
+                <Button variant="menuItem" startIcon={<InputIcon />}>Inputs</Button>
+                <Button variant="menuItem" startIcon={<PermDataSettingIcon />}>figure</Button>
               </StyledMenu>
             }
 

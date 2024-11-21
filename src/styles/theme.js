@@ -14,7 +14,7 @@ export const darkPalette = {
     },
   },
   primary: {
-    main: '#7B113A', 
+    main: '#36506F', 
   },
   secondary: {
     main: '#151515', // Pavyzdžiui, šviesiai rožinė spalva
