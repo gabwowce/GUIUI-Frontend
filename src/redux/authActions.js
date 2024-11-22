@@ -19,7 +19,7 @@ export const loginUser = (email, password) => async (dispatch) => {
         if (response.data.status === 'success') {
             dispatch({
                 type: 'LOGIN_SUCCESS',
-                payload: response.data.user, 
+                payload: response, 
             });
         } else {
             dispatch({ type: 'LOGIN_FAILURE', payload: response.data.message });

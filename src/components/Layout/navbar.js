@@ -19,14 +19,18 @@ import SignupModal from './Login/SignupModal';
 import logo from '../../assets/logo.png';
 import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
 
+import { useLocation } from 'react-router-dom';
+
+
+
 export const Navbar = () => {
+  const location = useLocation();
   const [popupOpen, setPopupOpen] = useState(false);
   const [activeRoute, setActiveRoute] = useState('/'); 
   const togglePopup = () => setPopupOpen(!popupOpen);
 
-  // Naudojame useSelector, kad gautume prisijungusio vartotojo informaciją
-  const user = useSelector((state) => state.auth.user);  // Tiesiog paimame 'user' iš authReducer
-  const isLoggedIn = user !== null; // Jei vartotojas yra, tai jis prisijungęs
+  const user = useSelector((state) => state.auth.user);  
+  const isLoggedIn = user !== null; 
 
   const theme = useTheme();
 
@@ -43,6 +47,10 @@ export const Navbar = () => {
   const handleMouseLeave = (type) => {
     setHovered((prevState) => ({ ...prevState, [type]: false }));
   };
+
+  useEffect(() => {
+    setHovered({ elements: false, generators: false });
+  }, [location]);
 
   return (
     <StyledAppBar maxWidth={false}> 
