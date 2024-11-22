@@ -30,23 +30,25 @@ const SignupModal = ({ open, onClose }) => {
             console.log("result ", result);
         } else {
             if (password === repeatPassword) {
-                result = await dispatch(registerUser(email, username, password, repeatPassword));
+                result = await dispatch(registerUser(username, password, email));
+                console.log("result ", result);
+                console.log("mail, username, password ", email, username, password);
             } else {
                 result = { status: 'error', message: "Passwords do not match", type: 'password' };
             }
         }
     
+        // Set notification based on the result type and field
         setNotification({
             open: true,
             message: result.message,
             severity: result.status === 'success' ? 'success' : 'error',
             type: result.type 
         });
-
     
-    
+        // Display error below the corresponding input field
         if (result.status === 'success') onClose();
-    };
+    }
 
     return (
         <Modal open={open} onClose={onClose}>

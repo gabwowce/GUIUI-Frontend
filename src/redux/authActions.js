@@ -41,34 +41,46 @@ export const loginUser = (email, password) => async (dispatch) => {
 
 
 
-
-
-
-export const registerUser = (email, username, password, repeatPassword) => async (dispatch) => {
+export const registerUser = (username, password, email) => async (dispatch) => {
     dispatch({ type: 'REGISTER_REQUEST' });
+
     try {
         const response = await axios.post(
             'http://localhost:8082/GUIUI/src/routes/apiRoutes.php?endpoint=auth/register', 
-            { email,username, password, repeatPassword },
+            { username, password, email }, 
             {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                withCredentials: true
+                withCredentials: true 
             }
         );
+
         if (response.data.status === 'success') {
-            dispatch({ type: 'REGISTER_SUCCESS', payload: response.data });
-            return { status: 'success', message: response.data.message };
+            dispatch({
+                type: 'REGISTER_SUCCESS',
+                payload: response.data.user, 
+                
+            });
+            
         } else {
             dispatch({ type: 'REGISTER_FAILURE', payload: response.data.message });
-            return { status: 'error', message: response.data.message || 'Registration failed.' };
         }
-    } catch (err) { // Use `err` instead of `error`
-        dispatch({ type: 'REGISTER_FAILURE', payload: err.response?.data?.message || "An error occurred" });
-        return { status: 'error', message: err.response?.data?.message || 'Registration failed.' };
+
+        return response.data;
+        
+    } catch (err) {
+        console.error('Error during registration:', err);
+
+        const errorMessage = err.response?.data?.message || "An error occurred";
+        const errorType = err.response?.data?.type || 'unknown';
+
+        dispatch({ type: 'REGISTER_FAILURE', payload: errorMessage });
+
+        return { status: 'error', message: errorMessage, type: errorType };
     }
 };
+
 
 
 export const logout = () => async (dispatch) => {

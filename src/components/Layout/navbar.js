@@ -127,7 +127,7 @@ export const Navbar = () => {
           <SpecialButton component={Link} to="/create" onClick={() => handleRouteClick('/create')}>Create</SpecialButton>  
           <Button variant="toggle" onClick={togglePopup}>
             {isLoggedIn ? 
-              <IconButton onClick={togglePopup} sx={{ color: theme.palette.text.primary }}>
+              <IconButton sx={{ color: theme.palette.text.primary }}>
                 <AccountCircleIcon />
               </IconButton> 
               : 'Login/Signup'}
