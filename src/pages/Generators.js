@@ -13,14 +13,16 @@ import InputIcon from '@mui/icons-material/Input';
 import PermDataSettingOutlinedIcon from '@mui/icons-material/PermDataSettingOutlined';
 import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveRoute } from '../redux/navigationActions';
 
 
 const Generators = () => {
-  const [activeRoute, setActiveRoute] = useState('/Button'); 
-
+  const dispatch = useDispatch();
+  const activeRoute = useSelector((state) => state.navigation.activeRoute);
 
   const handleRouteClick = (route) => {
-    setActiveRoute(route); 
+    dispatch(setActiveRoute(route));
   };
 
 

@@ -40,7 +40,8 @@ const ProfileNavBtn = () => {
             ref={buttonRef}
             variant="ProfileText"
             startIcon={<KeyboardArrowDownIcon />}
-            onClick={()=>setOpen(true)}>
+            onClick={()=>setOpen(!open)}
+            sx={{backgroundColor: open && theme.palette.btn.primary}}>
             {user && user.name ? user.name : "Undefined"}
             
         </Button>

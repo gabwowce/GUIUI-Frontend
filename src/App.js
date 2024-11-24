@@ -15,13 +15,23 @@ import Contact from './pages/Contact';
 import Generators from './pages/Generators';
 import Error from './pages/Error';
 
-import ButtonGenerator from './components/Layout/generators/ButtonGenerator';
-import BackgroundGenerator from './components/Layout/generators/BackgroundGenerator';
-import CardGenerator from './components/Layout/generators/CardGenerator';
-import LoaderGenerator from './components/Layout/generators/LoaderGenerator';
-import FormsGenerator from './components/Layout/generators/FormsGenerator';
-import InputsGenerator from './components/Layout/generators/InputsGenerator';
-import FigureGenerator from './components/Layout/generators/figureGenerator';
+import ButtonGenerator from './components/generators/ButtonGenerator';
+import BackgroundGenerator from './components/generators/BackgroundGenerator';
+import CardGenerator from './components/generators/CardGenerator';
+import LoaderGenerator from './components/generators/LoaderGenerator';
+import FormsGenerator from './components/generators/FormsGenerator';
+import InputsGenerator from './components/generators/InputsGenerator';
+import FigureGenerator from './components/generators/figureGenerator';
+
+import AllElements from './components/elements/AllElements';
+import ButtonElements from './components/elements/ButtonElements';
+import BackgroundElements from './components/elements/BackgroundElements';
+import ModelsElements from './components/elements/ModelsElements';
+import CardsElements from './components/elements/CardsElements';
+import LoadersElements from './components/elements/LoadersElements';
+import FormsElements from './components/elements/FormsElements';
+import InputsElements from './components/elements/InputsElements';
+
 
 function App() {
   return (
@@ -31,7 +41,17 @@ function App() {
         <Navbar />
         <StyledContainer maxWidth={false}>
           <Routes>
-            <Route path="/elements" element={<Elements />} />
+            <Route path="/elements" element={<Elements />}>
+            <Route index element={<AllElements />} />
+              <Route path="all" element={<AllElements />} />
+              <Route path="button" element={<ButtonElements />} />
+              <Route path="backgrounds" element={<BackgroundElements />} />
+              <Route path="card" element={<ModelsElements />} />
+              <Route path="loader" element={<CardsElements />} />
+              <Route path="forms" element={<LoadersElements />} />
+              <Route path="inputs" element={<FormsElements />} />
+              <Route path="figure" element={<InputsElements />} />
+            </Route>
             <Route path="/generators" element={<Generators />}>
               <Route index element={<ButtonGenerator />} />
               <Route path="button" element={<ButtonGenerator />} />

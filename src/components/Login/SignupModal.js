@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux'; 
-import { loginUser, registerUser } from '../../../redux/authActions'; 
+import { loginUser, registerUser } from '../../redux/authActions'; 
 
 import { Button, Box, TextField, Typography, Modal, IconButton} from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import { GitHub as GitHubIcon, Close as CloseIcon } from '@mui/icons-material'; 
 
-import SpecialButton from '../SpecialButton';
+import SpecialButton from '../Layout/SpecialButton';
 
 const SignupModal = ({ open, onClose }) => {
     const [notification, setNotification] = useState({ open: false, message: '', severity: 'success', type:'' });

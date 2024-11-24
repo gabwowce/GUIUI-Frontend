@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Button, TextField, Slider, Typography, Select, MenuItem } from '@mui/material';
 
-const FormsGenerator = () => {
+const CardGenerator = () => {
   // Būsenos mygtuko savybėms
   const [buttonText, setButtonText] = useState('Click Me!');
   const [buttonColor, setButtonColor] = useState('#1976d2'); // Numatytas MUI primary spalva
@@ -12,7 +12,7 @@ const FormsGenerator = () => {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-        Button Generator
+      Card Generator
       </Typography>
 
       {/* Konfigūracijos panelė */}
@@ -88,4 +88,4 @@ const FormsGenerator = () => {
   );
 };
 
-export default FormsGenerator;
+export default CardGenerator;

@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux'; 
 import { Link, useLocation } from 'react-router-dom';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setActiveRoute } from '../../redux/navigationActions';
 
 import { Toolbar, Button, Box, Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -20,23 +22,29 @@ import PermDataSettingOutlinedIcon from '@mui/icons-material/PermDataSettingOutl
 import logo from '../../assets/logo.png';
 import ProfileNavBtn from './ProfileNavBtn';
 import SpecialButton from './SpecialButton';
-import SignupModal from './Login/SignupModal';
+import SignupModal from '../Login/SignupModal';
+
 
 
 
 export const Navbar = () => {
+  
   const theme = useTheme();
 
   const location = useLocation();
+
+  const dispatch = useDispatch();
+  const activeRoute = useSelector((state) => state.navigation.activeRoute);
+
   const [popupOpen, setPopupOpen] = useState(false);
-  const [activeRoute, setActiveRoute] = useState('/'); 
+ 
   const togglePopup = () => setPopupOpen(!popupOpen);
 
   const user = useSelector((state) => state.auth.user);  
   const isLoggedIn = user !== null; 
 
   const handleRouteClick = (route) => {
-    setActiveRoute(route);
+    dispatch(setActiveRoute(route));
   };
 
   const [hovered, setHovered] = useState({ elements: false, generators: false });
@@ -99,13 +107,13 @@ export const Navbar = () => {
             {
               hovered.generators &&
               <StyledMenu>
-                <Button variant="menuItem" startIcon={<SmartButtonIcon />}>Button</Button>
-                <Button variant="menuItem" startIcon={<WallpaperIcon />}>Backgrounds</Button>
-                <Button variant="menuItem" startIcon={<ArticleOutlinedIcon />}>Card</Button>
-                <Button variant="menuItem" startIcon={<AutorenewIcon />}>Loader</Button>
-                <Button variant="menuItem" startIcon={<ListAltIcon />}>Forms</Button>
-                <Button variant="menuItem" startIcon={<InputIcon />}>Inputs</Button>
-                <Button variant="menuItem" startIcon={<PermDataSettingOutlinedIcon />}>figure</Button>
+                <Button variant="menuItem" component={Link} to="/generators/button" onClick={() => handleRouteClick('/Button')} startIcon={<SmartButtonIcon />}>Button</Button>
+                <Button variant="menuItem" component={Link} to="/generators/backgrounds" onClick={() => handleRouteClick('/Backgrounds')} startIcon={<WallpaperIcon />}>Backgrounds</Button>
+                <Button variant="menuItem" component={Link} to="/generators/card" onClick={() => handleRouteClick('/Card')} startIcon={<ArticleOutlinedIcon />}>Card</Button>
+                <Button variant="menuItem" component={Link} to="/generators/loader" onClick={() => handleRouteClick('/Loader')} startIcon={<AutorenewIcon />}>Loader</Button>
+                <Button variant="menuItem" component={Link} to="/generators/forms" onClick={() => handleRouteClick('/Forms')} startIcon={<ListAltIcon />}>Forms</Button>
+                <Button variant="menuItem" component={Link} to="/generators/inputs" onClick={() => handleRouteClick('/Inputs')} startIcon={<InputIcon />}>Inputs</Button>
+                <Button variant="menuItem" component={Link} to="/generators/figure" onClick={() => handleRouteClick('/figure')} startIcon={<PermDataSettingOutlinedIcon />}>figure</Button>
               </StyledMenu>
             }
 
