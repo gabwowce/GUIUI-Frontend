@@ -1,4 +1,4 @@
-import { Padding } from '@mui/icons-material';
+import { BorderTop } from '@mui/icons-material';
 import { createTheme } from '@mui/material/styles';
 
 // Tamsios temos spalvų nustatymai
@@ -144,6 +144,10 @@ export const darkTheme = createTheme({
   },
 
   components: {
+    toggleStyle: ({ activeRoute,theme, route }) => ({
+      backgroundColor: activeRoute ===  `/${route}` ? theme.palette.btn.primary : 'transparent',
+      color: activeRoute === `/${route}` ? theme.palette.text.primary : 'inherit',
+    }),
     MuiButton: {
       styleOverrides: {
         root: {
@@ -169,6 +173,17 @@ export const darkTheme = createTheme({
             backgroundColor: darkPalette.btn.primary,
           },
         },
+        ProfileText: {
+          backgroundColor: 'transparent',
+          color: darkPalette.text.primary,
+          '&:hover': {
+            backgroundColor: darkPalette.btn.primary,
+          },
+          '&::active':{
+            backgroundColor: darkPalette.btn.primary ,
+            color: darkPalette.text.primary,
+          }
+        },
         menuItem: {
           display: 'flex', 
           justifyContent: 'flex-start', 
@@ -177,6 +192,17 @@ export const darkTheme = createTheme({
           color: darkPalette.text.primary,
           '&:hover': {
             backgroundColor: darkPalette.btn.primaryHover,
+          },
+        },
+        menuItemSm: {
+          fontSize:'0.8rem',
+          display: 'flex', 
+          justifyContent: 'flex-start', 
+          textAlign: 'left',
+          backgroundColor: 'transparent',
+          color: darkPalette.text.primary,
+          '&:hover': {
+            backgroundColor: darkPalette.btn.primary,
           },
         },
         outlined: {

@@ -1,6 +1,7 @@
 import React, { useState,useEffect, useRef } from 'react';
-import { ChromePicker } from 'react-color';  // Importuojame spalvų pasirinkimo komponentą
+import { ChromePicker } from 'react-color';  
 import MonacoEditor from '@monaco-editor/react';
+
 import { Tabs, Tab, Box, Container, Button, Switch } from '@mui/material';
 import { styled } from '@mui/material/styles';
 

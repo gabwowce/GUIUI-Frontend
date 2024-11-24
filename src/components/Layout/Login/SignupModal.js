@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
-import { Button, Box, TextField, Typography, Modal, IconButton, Snackbar, Alert } from '@mui/material';
-import { useDispatch } from 'react-redux'; // Importuojame useDispatch
-import { loginUser, registerUser } from '../../../redux/authActions'; // Importuojame veiksmus
+import { useDispatch } from 'react-redux'; 
+import { loginUser, registerUser } from '../../../redux/authActions'; 
+
+import { Button, Box, TextField, Typography, Modal, IconButton} from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 import { GitHub as GitHubIcon, Close as CloseIcon } from '@mui/icons-material'; 
+
 import SpecialButton from '../SpecialButton';
 
 const SignupModal = ({ open, onClose }) => {
@@ -19,7 +21,6 @@ const SignupModal = ({ open, onClose }) => {
 
     const handleGitHubLogin = () => {
         console.log('Redirecting to GitHub login...');
-        // Integruokite GitHub OAuth čia
     };
 
     const handleSubmit = async () => {
@@ -37,21 +38,22 @@ const SignupModal = ({ open, onClose }) => {
                 result = { status: 'error', message: "Passwords do not match", type: 'password' };
             }
         }
+
     
-        // Set notification based on the result type and field
         setNotification({
             open: true,
             message: result.message,
             severity: result.status === 'success' ? 'success' : 'error',
             type: result.type 
         });
-    
-        // Display error below the corresponding input field
-        if (result.status === 'success') onClose();
+
+        if (result.status === 'success' || result.data.status === 'success') {
+            onClose();
+        }
     }
 
     return (
-        <Modal open={open} onClose={onClose}>
+        <Modal open={open} onClose={() => setNotification(false)}>
             <StyledModal>
                 <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                     <Typography variant="h6" gutterBottom>
@@ -61,15 +63,6 @@ const SignupModal = ({ open, onClose }) => {
                         <CloseIcon />
                     </CloseBtn>
                 </Box>
-
-                {/* <Snackbar
-                    open={notification.open}
-                    autoHideDuration={6000}
-                    onClose={() => setNotification({ ...notification, open: false })}>
-                    <Alert onClose={() => setNotification({ ...notification, open: false })} severity={notification.severity}>
-                        {notification.message}
-                    </Alert>
-                </Snackbar> */}
 
                 <TextField 
                     sx={InputStyle} 

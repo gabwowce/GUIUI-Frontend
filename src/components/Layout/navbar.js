@@ -1,29 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux'; 
-import { AppBar, Toolbar, IconButton, Button, Box, Menu, MenuItem, Modal, TextField, Typography, useMediaQuery, Container, ButtonGroup } from '@mui/material';
+import { Link, useLocation } from 'react-router-dom';
+
+import { Toolbar, Button, Box, Container } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useTheme } from '@mui/material/styles';
-import SpecialButton from './SpecialButton';
+
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import ImportContactsIcon from '@mui/icons-material/ImportContacts';
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import WallpaperIcon from '@mui/icons-material/Wallpaper';
 import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import InputIcon from '@mui/icons-material/Input';
-import SignupModal from './Login/SignupModal';
-import logo from '../../assets/logo.png';
-import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
+import PermDataSettingOutlinedIcon from '@mui/icons-material/PermDataSettingOutlined';
 
-import { useLocation } from 'react-router-dom';
+import logo from '../../assets/logo.png';
+import ProfileNavBtn from './ProfileNavBtn';
+import SpecialButton from './SpecialButton';
+import SignupModal from './Login/SignupModal';
 
 
 
 export const Navbar = () => {
+  const theme = useTheme();
+
   const location = useLocation();
   const [popupOpen, setPopupOpen] = useState(false);
   const [activeRoute, setActiveRoute] = useState('/'); 
@@ -31,8 +34,6 @@ export const Navbar = () => {
 
   const user = useSelector((state) => state.auth.user);  
   const isLoggedIn = user !== null; 
-
-  const theme = useTheme();
 
   const handleRouteClick = (route) => {
     setActiveRoute(route);
@@ -63,7 +64,7 @@ export const Navbar = () => {
               component={Link}
               endIcon={<KeyboardArrowDownIcon />}
               to="/elements"
-              sx={(theme) => toggleStyle({ activeRoute, theme, route: "elements" })}
+              sx={(theme) => theme.components.toggleStyle({ activeRoute,theme, route: "elements" })}
               onClick={() => handleRouteClick('/elements')}>
               Elements
             </Button>
@@ -75,7 +76,7 @@ export const Navbar = () => {
                 <Button variant="menuItem" startIcon={<SmartButtonIcon />}>Buttons</Button>
                 <Button variant="menuItem" startIcon={<WallpaperIcon />}>Backgrounds</Button>
                 <Button variant="menuItem" startIcon={<ViewInArIcon />}>3D Models</Button>
-                <Button variant="menuItem" startIcon={<ViewCarouselIcon />}>Cards</Button>
+                <Button variant="menuItem" startIcon={<ArticleOutlinedIcon />}>Cards</Button>
                 <Button variant="menuItem" startIcon={<AutorenewIcon />}>Loaders</Button>
                 <Button variant="menuItem" startIcon={<ListAltIcon />}>Forms</Button>
                 <Button variant="menuItem" startIcon={<InputIcon />}>Inputs</Button>
@@ -90,7 +91,7 @@ export const Navbar = () => {
               component={Link}
               endIcon={<KeyboardArrowDownIcon />}
               to="/generators"
-              sx={(theme) => toggleStyle({ activeRoute, theme, route: "generators" })}
+              sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "generators" })}
               onClick={() => handleRouteClick('/generators')}>
               Generators
             </Button>
@@ -100,11 +101,11 @@ export const Navbar = () => {
               <StyledMenu>
                 <Button variant="menuItem" startIcon={<SmartButtonIcon />}>Button</Button>
                 <Button variant="menuItem" startIcon={<WallpaperIcon />}>Backgrounds</Button>
-                <Button variant="menuItem" startIcon={<ViewCarouselIcon />}>Card</Button>
+                <Button variant="menuItem" startIcon={<ArticleOutlinedIcon />}>Card</Button>
                 <Button variant="menuItem" startIcon={<AutorenewIcon />}>Loader</Button>
                 <Button variant="menuItem" startIcon={<ListAltIcon />}>Forms</Button>
                 <Button variant="menuItem" startIcon={<InputIcon />}>Inputs</Button>
-                <Button variant="menuItem" startIcon={<PermDataSettingIcon />}>figure</Button>
+                <Button variant="menuItem" startIcon={<PermDataSettingOutlinedIcon />}>figure</Button>
               </StyledMenu>
             }
 
@@ -115,7 +116,7 @@ export const Navbar = () => {
             component={Link}
             to="/popular"
             onClick={() => handleRouteClick('/popular')} 
-            sx={(theme) => toggleStyle({ activeRoute, theme, route: "popular" })}>
+            sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "popular" })}>
             Popular
           </Button>
           <Button
@@ -123,7 +124,7 @@ export const Navbar = () => {
             component={Link}
             to="/contact"
             onClick={() => handleRouteClick('/contact')} 
-            sx={(theme) => toggleStyle({ activeRoute, theme, route: "contact" })}>
+            sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "contact" })}>
             Contact
           </Button>
         </StyledBox>
@@ -133,13 +134,15 @@ export const Navbar = () => {
             isLoggedIn && <SpecialButton>Create</SpecialButton>  
           } */}
           <SpecialButton component={Link} to="/create" onClick={() => handleRouteClick('/create')}>Create</SpecialButton>  
-          <Button variant="toggle" onClick={togglePopup}>
-            {isLoggedIn ? 
-              <IconButton sx={{ color: theme.palette.text.primary }}>
-                <AccountCircleIcon />
-              </IconButton> 
-              : 'Login/Signup'}
-          </Button>
+
+          {
+            isLoggedIn ?
+            <ProfileNavBtn/>
+            :
+            <Button variant="toggle" onClick={togglePopup}>
+              Login/Signup
+            </Button>
+          }
         </Box>
       </StyledToolbar>
 
@@ -167,10 +170,10 @@ const StyledMenu = styled(Box)(({ theme }) => ({
 
 }));
 
-const toggleStyle = ({activeRoute, theme, route}) =>({
-    backgroundColor: activeRoute ===  `/${route}` ? theme.palette.btn.primary : 'transparent',
-    color: activeRoute === `/${route}` ? theme.palette.text.primary : 'inherit',
-  }); 
+// const toggleStyle = ({activeRoute, theme, route}) =>({
+//     backgroundColor: activeRoute ===  `/${route}` ? theme.palette.btn.primary : 'transparent',
+//     color: activeRoute === `/${route}` ? theme.palette.text.primary : 'inherit',
+//   }); 
 
 const boxStyle ={
   display:'flex',

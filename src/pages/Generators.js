@@ -1,65 +1,39 @@
 import React, { useState } from 'react';
+import { Outlet, Link } from 'react-router-dom';
+
 import { Box, Button } from '@mui/material';
-import ImportContactsIcon from '@mui/icons-material/ImportContacts';
+import { styled } from '@mui/system';
+
+
 import SmartButtonIcon from '@mui/icons-material/SmartButton';
 import WallpaperIcon from '@mui/icons-material/Wallpaper';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
 import AutorenewIcon from '@mui/icons-material/Autorenew';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import InputIcon from '@mui/icons-material/Input';
-import PermDataSettingIcon from '@mui/icons-material/PermDataSetting';
-import { styled } from '@mui/system';
+import PermDataSettingOutlinedIcon from '@mui/icons-material/PermDataSettingOutlined';
+import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
 
-import ButtonGenerator from '../components/Layout/generators/ButtonGenerator';
-import BackgroundGenerator from '../components/Layout/generators/BackgroundGenerator';
-import CardGenerator from '../components/Layout/generators/CardGenerator';
-import LoaderGenerator from '../components/Layout/generators/LoaderGenerator';
-import FormsGenerator from '../components/Layout/generators/FormsGenerator';
-import InputsGenerator from '../components/Layout/generators/InputsGenerator';
-import FigureGenerator from '../components/Layout/generators/figureGenerator';
+
 
 const Generators = () => {
   const [activeRoute, setActiveRoute] = useState('/Button'); 
-  const [activeGenerator, setActiveGenerator] = useState('/Button'); 
 
-  const handleRouteClick = (route, generator) => {
+
+  const handleRouteClick = (route) => {
     setActiveRoute(route); 
-    setActiveGenerator(generator); 
-  };
-
-
-  const renderGenerator = () => {
-    switch (activeGenerator) {
-      case 'Button':
-        return <ButtonGenerator />;
-      case 'Backgrounds':
-        return <BackgroundGenerator />;
-      case 'Card':
-        return <CardGenerator />;
-      case 'Loader':
-        return <LoaderGenerator />;
-      case 'Forms':
-        return <FormsGenerator />;
-      case 'Inputs':
-        return <InputsGenerator />;
-      case 'figure':
-        return <FigureGenerator />;
-      default:
-        return <ButtonGenerator />;
-    }
   };
 
 
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* Šoninis meniu */}
       <StyledSideMenu>
         <Button
           variant="textLeft"
           startIcon={<SmartButtonIcon />}
           sx={(theme) => toggleStyle({ activeRoute, theme, route: '/Button' })}
-          onClick={() => handleRouteClick('/Button', 'Button')}
+          onClick={() => handleRouteClick('/Button')}
+          component={Link}
+          to="/generators/button"
         >
           Button
         </Button>
@@ -67,15 +41,19 @@ const Generators = () => {
           variant="textLeft"
           startIcon={<WallpaperIcon />}
           sx={(theme) => toggleStyle({ activeRoute, theme, route: '/Backgrounds' })}
-          onClick={() => handleRouteClick('/Backgrounds', 'Backgrounds')}
+          onClick={() => handleRouteClick('/Backgrounds')}
+          component={Link}
+          to="/generators/backgrounds"
         >
           Backgrounds
         </Button>
         <Button
           variant="textLeft"
-          startIcon={<ViewCarouselIcon />}
+          startIcon={<ArticleOutlinedIcon />}
           sx={(theme) => toggleStyle({ activeRoute, theme, route: '/Card' })}
-          onClick={() => handleRouteClick('/Card', 'Card')}
+          onClick={() => handleRouteClick('/Card')}
+          component={Link}
+          to="/generators/card"
         >
           Card
         </Button>
@@ -83,7 +61,9 @@ const Generators = () => {
           variant="textLeft"
           startIcon={<AutorenewIcon />}
           sx={(theme) => toggleStyle({ activeRoute, theme, route: '/Loader' })}
-          onClick={() => handleRouteClick('/Loader', 'Loader')}
+          onClick={() => handleRouteClick('/Loader')}
+          component={Link}
+          to="/generators/loader"
         >
           Loader
         </Button>
@@ -91,7 +71,9 @@ const Generators = () => {
           variant="textLeft"
           startIcon={<ListAltIcon />}
           sx={(theme) => toggleStyle({ activeRoute, theme, route: '/Forms' })}
-          onClick={() => handleRouteClick('/Forms', 'Forms')}
+          onClick={() => handleRouteClick('/Forms')}
+          component={Link}
+          to="/generators/forms"
         >
           Forms
         </Button>
@@ -99,36 +81,39 @@ const Generators = () => {
           variant="textLeft"
           startIcon={<InputIcon />}
           sx={(theme) => toggleStyle({ activeRoute, theme, route: '/Inputs' })}
-          onClick={() => handleRouteClick('/Inputs', 'Inputs')}
+          onClick={() => handleRouteClick('/Inputs')}
+          component={Link}
+          to="/generators/inputs"
         >
           Inputs
         </Button>
         <Button
           variant="textLeft"
-          startIcon={<PermDataSettingIcon />}
+          startIcon={<PermDataSettingOutlinedIcon />}
           sx={(theme) => toggleStyle({ activeRoute, theme, route: '/figure' })}
-          onClick={() => handleRouteClick('/figure', 'figure')}
+          onClick={() => handleRouteClick('/figure')}
+          component={Link}
+          to="/generators/figure"
         >
           Figure
         </Button>
       </StyledSideMenu>
 
-      {/* Turinio sritis */}
-      <Box
-        sx={{
-          flex: 1,
-          padding: '1rem',
-          border: '1px solid lightgray',
-          borderRadius: '8px',
-        }}
-      >
-        {renderGenerator()}
-      </Box>
+      <StyledBox>
+        <Outlet />
+      </StyledBox>
     </Box>
   );
 };
 
 export default Generators;
+
+const StyledBox = styled(Box)({
+  flex: 1,
+  padding: '1rem',
+  border: '1px solid lightgray',
+  borderRadius: '8px',
+})
 
 const StyledSideMenu = styled(Box)(({ theme }) => ({
   position: 'sticky',
