@@ -80,14 +80,14 @@ export const Navbar = () => {
             {
               hovered.elements &&
               <StyledMenu>
-                <Button variant="menuItem" startIcon={<ImportContactsIcon />}>All</Button>
-                <Button variant="menuItem" startIcon={<SmartButtonIcon />}>Buttons</Button>
-                <Button variant="menuItem" startIcon={<WallpaperIcon />}>Backgrounds</Button>
-                <Button variant="menuItem" startIcon={<ViewInArIcon />}>3D Models</Button>
-                <Button variant="menuItem" startIcon={<ArticleOutlinedIcon />}>Cards</Button>
-                <Button variant="menuItem" startIcon={<AutorenewIcon />}>Loaders</Button>
-                <Button variant="menuItem" startIcon={<ListAltIcon />}>Forms</Button>
-                <Button variant="menuItem" startIcon={<InputIcon />}>Inputs</Button>
+                <Button variant="menuItem" component={Link} to="/elements/all" onClick={() => handleRouteClick('/All')} startIcon={<ImportContactsIcon />}>All</Button>
+                <Button variant="menuItem" component={Link} to="/elements/buttons" onClick={() => handleRouteClick('/Buttons')} startIcon={<SmartButtonIcon />}>Buttons</Button>
+                <Button variant="menuItem" component={Link} to="/elements/backgrounds" onClick={() => handleRouteClick('/Backgrounds')} startIcon={<WallpaperIcon />}>Backgrounds</Button>
+                <Button variant="menuItem" component={Link} to="/elements/models" onClick={() => handleRouteClick('/Models')} startIcon={<ViewInArIcon />}>3D Models</Button>
+                <Button variant="menuItem" component={Link} to="/elements/card" onClick={() => handleRouteClick('/Cards')} startIcon={<ArticleOutlinedIcon />}>Cards</Button>
+                <Button variant="menuItem" component={Link} to="/elements/loader" onClick={() => handleRouteClick('/Loaders')} startIcon={<AutorenewIcon />}>Loaders</Button>
+                <Button variant="menuItem" component={Link} to="/elements/forms" onClick={() => handleRouteClick('/Forms')} startIcon={<ListAltIcon />}>Forms</Button>
+                <Button variant="menuItem" component={Link} to="/elements/inputs" onClick={() => handleRouteClick('/Inputs')} startIcon={<InputIcon />}>Inputs</Button>
               </StyledMenu>
             }
 

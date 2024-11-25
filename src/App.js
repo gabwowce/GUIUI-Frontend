@@ -42,15 +42,15 @@ function App() {
         <StyledContainer maxWidth={false}>
           <Routes>
             <Route path="/elements" element={<Elements />}>
-            <Route index element={<AllElements />} />
+              <Route index element={<AllElements />} />
               <Route path="all" element={<AllElements />} />
-              <Route path="button" element={<ButtonElements />} />
+              <Route path="buttons" element={<ButtonElements />} />
               <Route path="backgrounds" element={<BackgroundElements />} />
+              <Route path="models" element={<ModelsElements />} />
               <Route path="card" element={<ModelsElements />} />
               <Route path="loader" element={<CardsElements />} />
               <Route path="forms" element={<LoadersElements />} />
               <Route path="inputs" element={<FormsElements />} />
-              <Route path="figure" element={<InputsElements />} />
             </Route>
             <Route path="/generators" element={<Generators />}>
               <Route index element={<ButtonGenerator />} />
