@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import NavbarBtns from '../NavbarBtns';
+import {elementsCategories,generatorCategories} from '../../data/MenuBtns';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setActiveRoute } from '../../redux/navigationActions';
@@ -9,15 +11,6 @@ import { styled } from '@mui/material/styles';
 import { useTheme } from '@mui/material/styles';
 
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-import SmartButtonIcon from '@mui/icons-material/SmartButton';
-import WallpaperIcon from '@mui/icons-material/Wallpaper';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import InputIcon from '@mui/icons-material/Input';
-import ArticleOutlinedIcon from '@mui/icons-material/ArticleOutlined';
-import PermDataSettingOutlinedIcon from '@mui/icons-material/PermDataSettingOutlined';
 
 import logo from '../../assets/logo.png';
 import ProfileNavBtn from './ProfileNavBtn';
@@ -36,6 +29,8 @@ export const Navbar = () => {
   const dispatch = useDispatch();
   const activeRoute = useSelector((state) => state.navigation.activeRoute);
 
+  const [activeNavbarRoute, setActiveNavbarRoute] = useState('elements');
+
   const [popupOpen, setPopupOpen] = useState(false);
  
   const togglePopup = () => setPopupOpen(!popupOpen);
@@ -45,6 +40,9 @@ export const Navbar = () => {
 
   const handleRouteClick = (route) => {
     dispatch(setActiveRoute(route));
+  };
+  const handleRouteNavbarClick = (route) => {
+    setActiveNavbarRoute(route);
   };
 
   const [hovered, setHovered] = useState({ elements: false, generators: false });
@@ -72,25 +70,24 @@ export const Navbar = () => {
               component={Link}
               endIcon={<KeyboardArrowDownIcon />}
               to="/elements"
-              sx={(theme) => theme.components.toggleStyle({ activeRoute,theme, route: "elements" })}
-              onClick={() => handleRouteClick('/elements')}>
+              sx={(theme) => theme.components.toggleStyle({ activeNavbarRoute,theme, route: "elements" })}
+              onClick={() => handleRouteNavbarClick('/elements')}>
               Elements
             </Button>
-
             {
               hovered.elements &&
               <StyledMenu>
-                <Button variant="menuItem" component={Link} to="/elements/all" onClick={() => handleRouteClick('/All')} startIcon={<ImportContactsIcon />}>All</Button>
-                <Button variant="menuItem" component={Link} to="/elements/buttons" onClick={() => handleRouteClick('/Buttons')} startIcon={<SmartButtonIcon />}>Buttons</Button>
-                <Button variant="menuItem" component={Link} to="/elements/backgrounds" onClick={() => handleRouteClick('/Backgrounds')} startIcon={<WallpaperIcon />}>Backgrounds</Button>
-                <Button variant="menuItem" component={Link} to="/elements/models" onClick={() => handleRouteClick('/Models')} startIcon={<ViewInArIcon />}>3D Models</Button>
-                <Button variant="menuItem" component={Link} to="/elements/card" onClick={() => handleRouteClick('/Cards')} startIcon={<ArticleOutlinedIcon />}>Cards</Button>
-                <Button variant="menuItem" component={Link} to="/elements/loader" onClick={() => handleRouteClick('/Loaders')} startIcon={<AutorenewIcon />}>Loaders</Button>
-                <Button variant="menuItem" component={Link} to="/elements/forms" onClick={() => handleRouteClick('/Forms')} startIcon={<ListAltIcon />}>Forms</Button>
-                <Button variant="menuItem" component={Link} to="/elements/inputs" onClick={() => handleRouteClick('/Inputs')} startIcon={<InputIcon />}>Inputs</Button>
+                {elementsCategories.map(({path,label,icon})=>(
+                  <NavbarBtns
+                    variant={'menuItem'}
+                    to={path}
+                    onClick={() => handleRouteClick(`/${label}`)}
+                    startIcon={icon}
+                    label={label}
+                  />
+                ))}
               </StyledMenu>
             }
-
           </Box>
 
           <Box sx={{position:'relative'}} onMouseEnter={() => handleMouseEnter('generators')} onMouseLeave={() => handleMouseLeave('generators')}>
@@ -99,40 +96,40 @@ export const Navbar = () => {
               component={Link}
               endIcon={<KeyboardArrowDownIcon />}
               to="/generators"
-              sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "generators" })}
-              onClick={() => handleRouteClick('/generators')}>
+              sx={(theme) => theme.components.toggleStyle({ activeNavbarRoute, theme, route: "Generators" })}
+              onClick={() => handleRouteNavbarClick('/generators')}>
               Generators
             </Button>
-
             {
               hovered.generators &&
               <StyledMenu>
-                <Button variant="menuItem" component={Link} to="/generators/button" onClick={() => handleRouteClick('/Button')} startIcon={<SmartButtonIcon />}>Button</Button>
-                <Button variant="menuItem" component={Link} to="/generators/backgrounds" onClick={() => handleRouteClick('/Backgrounds')} startIcon={<WallpaperIcon />}>Backgrounds</Button>
-                <Button variant="menuItem" component={Link} to="/generators/card" onClick={() => handleRouteClick('/Card')} startIcon={<ArticleOutlinedIcon />}>Card</Button>
-                <Button variant="menuItem" component={Link} to="/generators/loader" onClick={() => handleRouteClick('/Loader')} startIcon={<AutorenewIcon />}>Loader</Button>
-                <Button variant="menuItem" component={Link} to="/generators/forms" onClick={() => handleRouteClick('/Forms')} startIcon={<ListAltIcon />}>Forms</Button>
-                <Button variant="menuItem" component={Link} to="/generators/inputs" onClick={() => handleRouteClick('/Inputs')} startIcon={<InputIcon />}>Inputs</Button>
-                <Button variant="menuItem" component={Link} to="/generators/figure" onClick={() => handleRouteClick('/figure')} startIcon={<PermDataSettingOutlinedIcon />}>figure</Button>
+                {generatorCategories.map(({path,label,icon})=>(
+                  <NavbarBtns
+                    variant={'menuItem'}
+                    to={path}
+                    onClick={() => handleRouteClick(`/${label}`)}
+                    startIcon={icon}
+                    label={label}
+                  />
+                ))}
               </StyledMenu>
             }
-
           </Box>
           
           <Button
             variant="text"
             component={Link}
             to="/popular"
-            onClick={() => handleRouteClick('/popular')} 
-            sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "popular" })}>
+            onClick={() => handleRouteNavbarClick('/popular')} 
+            sx={(theme) => theme.components.toggleStyle({ activeNavbarRoute, theme, route: "Popular" })}>
             Popular
           </Button>
           <Button
             variant="text"
             component={Link}
             to="/contact"
-            onClick={() => handleRouteClick('/contact')} 
-            sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "contact" })}>
+            onClick={() => handleRouteNavbarClick('/contact')} 
+            sx={(theme) => theme.components.toggleStyle({ activeNavbarRoute, theme, route: "Contact" })}>
             Contact
           </Button>
         </StyledBox>
@@ -153,7 +150,6 @@ export const Navbar = () => {
           }
         </Box>
       </StyledToolbar>
-
       <SignupModal hoverEffectEnabled={true} open={popupOpen} onClose={togglePopup}/>
     </StyledAppBar>
   );
@@ -169,8 +165,8 @@ const StyledMenu = styled(Box)(({ theme }) => ({
   borderRadius:'8px',
   background: theme.palette.background.default,
   border: `1px solid ${theme.palette.btn.primary}`,
-  display: 'grid', // nustatome grid išdėstymą
-  gridTemplateColumns: '1fr 1fr', // du stulpeliai, abu užima po 50% vietos
+  display: 'grid', 
+  gridTemplateColumns: '1fr 1fr', 
   gap: theme.spacing(1.5),
   width:'400px',
   padding:'1rem',
@@ -178,10 +174,6 @@ const StyledMenu = styled(Box)(({ theme }) => ({
 
 }));
 
-// const toggleStyle = ({activeRoute, theme, route}) =>({
-//     backgroundColor: activeRoute ===  `/${route}` ? theme.palette.btn.primary : 'transparent',
-//     color: activeRoute === `/${route}` ? theme.palette.text.primary : 'inherit',
-//   }); 
 
 const boxStyle ={
   display:'flex',

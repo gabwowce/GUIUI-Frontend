@@ -47,16 +47,16 @@ function App() {
               <Route path="buttons" element={<ButtonElements />} />
               <Route path="backgrounds" element={<BackgroundElements />} />
               <Route path="models" element={<ModelsElements />} />
-              <Route path="card" element={<ModelsElements />} />
+              <Route path="cards" element={<ModelsElements />} />
               <Route path="loader" element={<CardsElements />} />
               <Route path="forms" element={<LoadersElements />} />
               <Route path="inputs" element={<FormsElements />} />
             </Route>
             <Route path="/generators" element={<Generators />}>
               <Route index element={<ButtonGenerator />} />
-              <Route path="button" element={<ButtonGenerator />} />
+              <Route path="buttons" element={<ButtonGenerator />} />
               <Route path="backgrounds" element={<BackgroundGenerator />} />
-              <Route path="card" element={<CardGenerator />} />
+              <Route path="cards" element={<CardGenerator />} />
               <Route path="loader" element={<LoaderGenerator />} />
               <Route path="forms" element={<FormsGenerator />} />
               <Route path="inputs" element={<InputsGenerator />} />

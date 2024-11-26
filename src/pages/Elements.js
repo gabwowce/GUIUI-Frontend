@@ -1,16 +1,9 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import NavbarBtns from '../components/NavbarBtns';
+import {elementsCategories} from '../data/MenuBtns';
 
 import { Box, Button } from '@mui/material';
-
-import ImportContactsIcon from '@mui/icons-material/ImportContacts';
-import SmartButtonIcon from '@mui/icons-material/SmartButton';
-import WallpaperIcon from '@mui/icons-material/Wallpaper';
-import ViewInArIcon from '@mui/icons-material/ViewInAr';
-import ViewCarouselIcon from '@mui/icons-material/ViewCarousel';
-import AutorenewIcon from '@mui/icons-material/Autorenew';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import InputIcon from '@mui/icons-material/Input';
 
 import { styled } from '@mui/system';
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,109 +18,24 @@ const Elements = () => {
   };
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* Sticky Side Menu */}
+      
       <StyledSideMenu>
-        <Button variant="textLeft" startIcon={<ImportContactsIcon />}
-          sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "All" })}
-          onClick={() => handleRouteClick('/All')}
-          component={Link}
-          to="/elements/all"
-        >
-          All
-        </Button>
-        <Button variant="textLeft" startIcon={<SmartButtonIcon />}
-          sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "Buttons" })}
-          onClick={() => handleRouteClick('/Buttons')}
-          component={Link}
-          to="/elements/buttons"
-        >
-          Buttons
-        </Button>
-        <Button variant="textLeft" startIcon={<WallpaperIcon />}
-          sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "Backgrounds" })}
-          onClick={() => handleRouteClick('/Backgrounds')}
-          component={Link}
-          to="/elements/backgrounds"
-        >
-          Backgrounds
-        </Button>
-        <Button variant="textLeft" startIcon={<ViewInArIcon />}
-          sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "Models" })}
-          onClick={() => handleRouteClick('/Models')}
-          component={Link}
-          to="/elements/models"
-          >
-          3D Models
-          </Button>
-        <Button variant="textLeft" startIcon={<ViewCarouselIcon />}
-          sx={(theme) =>theme.components.toggleStyle({ activeRoute, theme, route: "Cards" })}
-          onClick={() => handleRouteClick('/Cards')}
-          component={Link}
-          to="/elements/cards"
-          >
-          Cards
-          </Button>
-        <Button variant="textLeft" startIcon={<AutorenewIcon />}
-          sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "Loaders" })}
-          onClick={() => handleRouteClick('/Loaders')}
-          component={Link}
-          to="/elements/loader"
-          >
-            Loaders
-          </Button>
-        <Button variant="textLeft" startIcon={<ListAltIcon />}
-        sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "Forms" })}
-        onClick={() => handleRouteClick('/Forms')}
-        component={Link}
-        to="/elements/forms"
-        >
-          Forms
-          </Button>
-        <Button variant="textLeft" startIcon={<InputIcon />}
-          sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: "Inputs" })}
-          onClick={() => handleRouteClick('/Inputs')}
-          component={Link}
-          to="/elements/inputs"
-          >
-          Inputs
-        </Button>
+      {elementsCategories.map(({path,label,icon})=>(
+        <NavbarBtns
+          variant={'textLeft'}
+          to={path}
+          onClick={() => handleRouteClick(`/${label}`)}
+          startIcon={icon}
+          label={label}
+          sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: `${label}` })}
+        />
+      ))}
+
       </StyledSideMenu>
 
       {/* Main Content */}
       <Box >
-        <h1>Elements Page</h1>
-        <p>This is the elements page content.</p>
-        {/* Add more content for scrolling */}
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
-        <p>More content here to allow scrolling...</p>
+        <Outlet />
       </Box>
     </Box>
   );

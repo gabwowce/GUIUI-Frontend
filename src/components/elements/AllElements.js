@@ -12,7 +12,7 @@ const BackgroundGenerator = () => {
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-      Background Generator
+      ALL ELEMENTS
       </Typography>
 
       {/* Konfigūracijos panelė */}

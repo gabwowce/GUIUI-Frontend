@@ -2,10 +2,4 @@
     box-sizing: border-box;
   }
 
-  .CodeMirror {
-    font-family: monospace;
-    height: 90%;
-    color: black;
-    direction: ltr;
-}
 
