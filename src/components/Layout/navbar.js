@@ -29,8 +29,6 @@ export const Navbar = () => {
   const dispatch = useDispatch();
   const activeRoute = useSelector((state) => state.navigation.activeRoute);
 
-  const [activeNavbarRoute, setActiveNavbarRoute] = useState('elements');
-
   const [popupOpen, setPopupOpen] = useState(false);
  
   const togglePopup = () => setPopupOpen(!popupOpen);
@@ -40,9 +38,6 @@ export const Navbar = () => {
 
   const handleRouteClick = (route) => {
     dispatch(setActiveRoute(route));
-  };
-  const handleRouteNavbarClick = (route) => {
-    setActiveNavbarRoute(route);
   };
 
   const [hovered, setHovered] = useState({ elements: false, generators: false });
@@ -59,6 +54,13 @@ export const Navbar = () => {
     setHovered({ elements: false, generators: false });
   }, [location]);
 
+
+  const isElementsActive = location.pathname.startsWith('/elements');
+  const isGeneratorsActive = location.pathname.startsWith('/generators');
+
+  const isPopularActive = location.pathname.startsWith('/popular');
+  const isContactActive = location.pathname.startsWith('/contact');
+
   return (
     <StyledAppBar maxWidth={false}> 
       <StyledToolbar>
@@ -70,8 +72,10 @@ export const Navbar = () => {
               component={Link}
               endIcon={<KeyboardArrowDownIcon />}
               to="/elements"
-              sx={(theme) => theme.components.toggleStyle({ activeNavbarRoute,theme, route: "elements" })}
-              onClick={() => handleRouteNavbarClick('/elements')}>
+              sx={{
+                ...(isElementsActive && { backgroundColor: theme.palette.btn.primary, color: theme.palette.text.primary }),
+              }}
+              onClick={() => handleRouteClick('/All')}>
               Elements
             </Button>
             {
@@ -96,8 +100,10 @@ export const Navbar = () => {
               component={Link}
               endIcon={<KeyboardArrowDownIcon />}
               to="/generators"
-              sx={(theme) => theme.components.toggleStyle({ activeNavbarRoute, theme, route: "Generators" })}
-              onClick={() => handleRouteNavbarClick('/generators')}>
+              sx={{
+                ...(isGeneratorsActive && { backgroundColor: theme.palette.btn.primary, color: theme.palette.text.primary }),
+              }}
+              onClick={() => handleRouteClick('/Buttons')}>
               Generators
             </Button>
             {
@@ -120,16 +126,16 @@ export const Navbar = () => {
             variant="text"
             component={Link}
             to="/popular"
-            onClick={() => handleRouteNavbarClick('/popular')} 
-            sx={(theme) => theme.components.toggleStyle({ activeNavbarRoute, theme, route: "Popular" })}>
+            onClick={() => handleRouteClick('/Popular')} 
+            sx={(isPopularActive && { backgroundColor: theme.palette.btn.primary, color: theme.palette.text.primary })}>
             Popular
           </Button>
           <Button
             variant="text"
             component={Link}
             to="/contact"
-            onClick={() => handleRouteNavbarClick('/contact')} 
-            sx={(theme) => theme.components.toggleStyle({ activeNavbarRoute, theme, route: "Contact" })}>
+            onClick={() => handleRouteClick('/Contact')} 
+            sx={(isContactActive && { backgroundColor: theme.palette.btn.primary, color: theme.palette.text.primary })}>
             Contact
           </Button>
         </StyledBox>

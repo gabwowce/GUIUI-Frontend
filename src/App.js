@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Box, Container } from '@mui/material';
 import { ThemeProvider } from '@mui/material/styles';
 import { CssBaseline } from '@mui/material';
@@ -42,7 +42,7 @@ function App() {
         <StyledContainer maxWidth={false}>
           <Routes>
             <Route path="/elements" element={<Elements />}>
-              <Route index element={<AllElements />} />
+              <Route index element={<Navigate to="all" replace />} />
               <Route path="all" element={<AllElements />} />
               <Route path="buttons" element={<ButtonElements />} />
               <Route path="backgrounds" element={<BackgroundElements />} />
@@ -53,7 +53,7 @@ function App() {
               <Route path="inputs" element={<FormsElements />} />
             </Route>
             <Route path="/generators" element={<Generators />}>
-              <Route index element={<ButtonGenerator />} />
+              <Route index element={<Navigate to="buttons" replace />} />
               <Route path="buttons" element={<ButtonGenerator />} />
               <Route path="backgrounds" element={<BackgroundGenerator />} />
               <Route path="cards" element={<CardGenerator />} />
