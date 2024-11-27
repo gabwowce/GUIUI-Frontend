@@ -97,8 +97,8 @@ const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialP
   }, []);
 
   useEffect(() => {
-    const numericWidth = parseFloat(initialPreviewWidth); // Konvertuojame "30%" -> 30
-    setTabWidth(numericWidth <= 30 ? '90%' : '50%'); // Palyginame
+    const numericWidth = parseFloat(initialPreviewWidth); 
+    setTabWidth(numericWidth <= 30 ? '90%' : '50%'); 
   }, [initialPreviewWidth]);
 
   const toggleColorPicker = () => {

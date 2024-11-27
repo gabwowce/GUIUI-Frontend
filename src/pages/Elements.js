@@ -28,6 +28,7 @@ const Elements = () => {
           startIcon={icon}
           label={label}
           sx={(theme) => theme.components.toggleStyle({ activeRoute, theme, route: `${label}` })}
+          
         />
       ))}
 
