@@ -3,6 +3,7 @@ export const textControls = [
       type: 'text',
       category: 'basic',
       label: 'Button Text',
+      valueOf:"text",
       component: 'TextField',
       props: {
         variant: 'outlined',
@@ -13,6 +14,7 @@ export const textControls = [
       type: 'select',
       category: 'basic',
       label: 'Text Font',
+      valueOf:"textFont",
       component: 'Select',
       options: [
         { label: 'Roboto', value: 'Roboto' },
@@ -30,6 +32,7 @@ export const textControls = [
       type: 'color',
       category: 'basic',
       label: 'Font Color',
+      valueOf:"textColor",
       component: 'TextField',
       props: {
         variant: 'outlined',
@@ -41,6 +44,7 @@ export const textControls = [
       type: 'number',
       category: 'basic',
       label: 'Font Size',
+      valueOf:"fontSize",
       component: 'Slider',
       props: {
         variant: 'outlined',
@@ -55,6 +59,7 @@ export const textControls = [
       type: 'number',
       category: 'basic',
       label: 'Font Weight',
+      valueOf:"fontWeight",
       component: 'Slider',
       props: {
         variant: 'outlined',
@@ -69,6 +74,7 @@ export const textControls = [
       type: 'switch',
       category: 'basic',
       label: 'Switch to Uppercase',
+      valueOf:"uppercase",
       component: 'Switch',
       props: {
         checked: 'Uppercase',
@@ -79,6 +85,7 @@ export const textControls = [
       type: 'number',
       category: 'advanced',
       label: 'Letter Spacing',
+      valueOf:"letterSpacing",
       component: 'Slider',
       props: {
         
@@ -91,6 +98,7 @@ export const textControls = [
       type: 'number',
       category: 'advanced',
       label: 'Word Spacing',
+      valueOf:"wordSpacing",
       component: 'Slider',
       props: {
         
@@ -103,6 +111,7 @@ export const textControls = [
       type: 'gradient',
       category: 'advanced',
       label: 'Text Gradient',
+      valueOf:"textGradient",
       component: 'TextField',
       props: {
         variant: 'outlined',

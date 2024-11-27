@@ -1,82 +1,63 @@
 import React, { useState } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
-
 import PreviewGeneratorTemplate from '../PreviewGeneratorTemplate';
-import TextControls from '../controls/TextControls';
+import TextControls from '../../components/controls/TextControls';
+import { renderControl } from '../controls/renderControl';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { setText, setTextFont, setTextColor, setFontSize, setFontWeight, setUppercase, setLetterSpacing, setWordSpacing, setTextGradient } from '../../redux/controlers/textActions';
+
 
 const ButtonGenerator = () => {
+  const dispatch = useDispatch();
+  const buttonState = useSelector(state => state.text);
+  console.log("buttonState", buttonState);
 
-  // Būsenos reikšmės
-  const [buttonText, setButtonText] = useState('Click Me!');
-  const [buttonColor, setButtonColor] = useState('#1976d2');
-  const [textColor, setTextColor] = useState('#ffffff');
-  const [borderRadius, setBorderRadius] = useState(4);
-  const [padding, setPadding] = useState(10);
-  const [fontSize, setFontSize] = useState(16);
-
-  // Funkcija, kuri atnaujina būseną pagal įvestį
-  const handleChange = (field, value) => {
-    switch (field) {
-      case 'buttonText':
-        setButtonText(value);
-        break;
-      case 'buttonColor':
-        setButtonColor(value);
-        break;
-      case 'textColor':
-        setTextColor(value);
-        break;
-      case 'borderRadius':
-        setBorderRadius(value);
-        break;
-      case 'padding':
-        setPadding(value);
-        break;
-      case 'fontSize':
-        setFontSize(value);
-        break;
-      default:
-        break;
+  const handleChange = (e, valueOf) => {
+    const value = e.target ? e.target.value : e;  // if event, get value; else it's directly a value
+    switch (valueOf) {
+      case 'text': dispatch(setText(value)); break;
+      case 'textFont': dispatch(setTextFont(value)); break;
+      case 'textColor': dispatch(setTextColor(value)); break;
+      case 'fontSize': dispatch(setFontSize(value)); break;
+      case 'fontWeight': dispatch(setFontWeight(value)); break;
+      case 'uppercase': dispatch(setUppercase(value)); break;
+      case 'letterSpacing': dispatch(setLetterSpacing(value)); break;
+      case 'wordSpacing': dispatch(setWordSpacing(value)); break;
+      case 'textGradient': dispatch(setTextGradient(value)); break;
+      default: break;
     }
   };
 
-  // Generuojamas CSS
   const generatedCSS = `
     .custom-button {
-      background-color: ${buttonColor};
-      color: ${textColor};
+      background-color: ${buttonState.textColor};
+      color: ${buttonState.textGradient || buttonState.textColor};
+      font-family: ${buttonState.textFont};
+      font-size: ${buttonState.fontSize}px;
+      font-weight: ${buttonState.fontWeight};
+      text-transform: ${buttonState.uppercase ? 'uppercase' : 'none'};
+      letter-spacing: ${buttonState.letterSpacing}px;
+      word-spacing: ${buttonState.wordSpacing}px;
+      border-radius: 5px;
+      padding: 10px 20px;
       border: none;
-      border-radius: ${borderRadius}px;
-      padding: ${padding}px ${padding * 2}px;
-      font-size: ${fontSize}px;
       cursor: pointer;
     }
   `;
-  
-  // Generuojamas HTML
-  const generatedHTML = `<button class="custom-button">${buttonText}</button>`;
+
+  const generatedHTML = `<button class="custom-button">${buttonState.text}</button>`;
 
   return (
     <StyledBox>
-      {/* Generuojamas mygtuko peržiūros šablonas */}
       <PreviewGeneratorTemplate
         initialHtml={generatedHTML}
         initialCss={generatedCSS}
         initialJs={''}
         initialPreviewWidth={'30%'}
       />
-      
-      {/* Valdikliai mygtuko parametram */}
-      <TextControls 
-        handleChange={handleChange} 
-        buttonText={buttonText}
-        buttonColor={buttonColor}
-        textColor={textColor}
-        borderRadius={borderRadius}
-        padding={padding}
-        fontSize={fontSize}
-      />
+    <TextControls handleChange={handleChange} controls={buttonState}/>
     </StyledBox>
   );
 };
@@ -87,5 +68,5 @@ const StyledBox = styled(Box)({
   display: 'flex',
   flexDirection: 'row',
   justifyContent: 'center',
-  alignItems: 'center',
+  alignItems: 'flex-start',
 });
