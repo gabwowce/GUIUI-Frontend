@@ -1,22 +1,31 @@
 import React from 'react';
 import { Card, CardContent, Typography } from '@mui/material';
-import { renderControl } from '../controls/renderControl';
-import { textControls } from '../../config/controls';
+import { renderControl } from '../controls/renderControl'; 
+import { useDispatch, useSelector } from 'react-redux';
+import { updateControl } from '../../redux/controlers/controlActions'; 
 
-const TextControls = ({ handleChange, controls }) => {
+const TextControls = ({ componentId, controlsConfig }) => {
+  const dispatch = useDispatch();
+  const componentState = useSelector((state) => state.controls.components[componentId] || {});
+
+const handleChange = (controlName, value) => {
+  console.log(`Control ${controlName} changed to:`, value); // Debugging: Check control name and value
+  dispatch(updateControl(componentId, controlName, value));
+};
+
   return (
     <Card sx={{ marginBottom: 2, padding: 2 }}>
       <CardContent>
         <Typography variant="h6" gutterBottom>
-          Text Controls
+          {componentId.charAt(0).toUpperCase() + componentId.slice(1)} Controls
         </Typography>
-        {textControls.map((control, index) => (
+        {controlsConfig.map((control, index) => (
           <div key={index} style={{ marginBottom: '16px' }}>
             <Typography variant="body2" gutterBottom>{control.label}</Typography>
             {renderControl(
               control, 
-              (value) => handleChange(control.valueOf, value), 
-              controls[control.valueOf] 
+              handleChange, 
+              componentState[control.name] || ''
             )}
           </div>
         ))}
@@ -24,8 +33,5 @@ const TextControls = ({ handleChange, controls }) => {
     </Card>
   );
 };
-
-
-
 
 export default TextControls;

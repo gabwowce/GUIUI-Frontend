@@ -32,7 +32,7 @@ export const textControls = [
       type: 'color',
       category: 'basic',
       label: 'Font Color',
-      valueOf:"textColor",
+      valueOf:"color",
       component: 'TextField',
       props: {
         variant: 'outlined',
@@ -68,17 +68,6 @@ export const textControls = [
         min: 100,
         max: 900,
         step: 100,
-      },
-    },
-    {
-      type: 'switch',
-      category: 'basic',
-      label: 'Switch to Uppercase',
-      valueOf:"uppercase",
-      component: 'Switch',
-      props: {
-        checked: 'Uppercase',
-        
       },
     },
     {

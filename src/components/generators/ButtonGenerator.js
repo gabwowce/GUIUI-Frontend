@@ -1,63 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import { Box } from '@mui/material';
 import PreviewGeneratorTemplate from '../PreviewGeneratorTemplate';
 import TextControls from '../../components/controls/TextControls';
 import { renderControl } from '../controls/renderControl';
+import {textControls} from "../../config/controls";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setText, setTextFont, setTextColor, setFontSize, setFontWeight, setUppercase, setLetterSpacing, setWordSpacing, setTextGradient } from '../../redux/controlers/textActions';
 
 
-const ButtonGenerator = () => {
-  const dispatch = useDispatch();
-  const buttonState = useSelector(state => state.text);
-  console.log("buttonState", buttonState);
+const camelToKebab = (str) => {
+  return str.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
+};
 
-  const handleChange = (e, valueOf) => {
-    const value = e.target ? e.target.value : e;  // if event, get value; else it's directly a value
-    switch (valueOf) {
-      case 'text': dispatch(setText(value)); break;
-      case 'textFont': dispatch(setTextFont(value)); break;
-      case 'textColor': dispatch(setTextColor(value)); break;
-      case 'fontSize': dispatch(setFontSize(value)); break;
-      case 'fontWeight': dispatch(setFontWeight(value)); break;
-      case 'uppercase': dispatch(setUppercase(value)); break;
-      case 'letterSpacing': dispatch(setLetterSpacing(value)); break;
-      case 'wordSpacing': dispatch(setWordSpacing(value)); break;
-      case 'textGradient': dispatch(setTextGradient(value)); break;
-      default: break;
-    }
+
+
+const ButtonGenerator = () => {
+
+  const generateCSS = (styles) => {
+    return Object.entries(styles)
+      .map(([key, value]) => `  ${camelToKebab(key)}: ${value};`)
+      .join('\n');
   };
 
-  const generatedCSS = `
-    .custom-button {
-      background-color: ${buttonState.textColor};
-      color: ${buttonState.textGradient || buttonState.textColor};
-      font-family: ${buttonState.textFont};
-      font-size: ${buttonState.fontSize}px;
-      font-weight: ${buttonState.fontWeight};
-      text-transform: ${buttonState.uppercase ? 'uppercase' : 'none'};
-      letter-spacing: ${buttonState.letterSpacing}px;
-      word-spacing: ${buttonState.wordSpacing}px;
-      border-radius: 5px;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-    }
-  `;
+  const styles = useSelector((state) => state.controls.components.button || {});
+  const [css, setCss] = useState('');
 
-  const generatedHTML = `<button class="custom-button">${buttonState.text}</button>`;
+  useEffect(() => {
+    console.log('Styles changed:', styles); // Stebėkite, kokie stiliai gaunami
+    const newCss = `.custom-button {\n${generateCSS(styles)}\n}`;
+    console.log('Generated CSS:', newCss); // Patikrinkite, kas generuojama
+    setCss(newCss);
+  }, [styles]);
+
+  const generatedHTML = `<button class="custom-button">click</button>`;
 
   return (
     <StyledBox>
       <PreviewGeneratorTemplate
+        key={css} // Priverčia komponentą persirenderinti su nauju CSS
         initialHtml={generatedHTML}
-        initialCss={generatedCSS}
+        initialCss={css}
         initialJs={''}
         initialPreviewWidth={'30%'}
       />
-    <TextControls handleChange={handleChange} controls={buttonState}/>
+    <TextControls componentId={"button"} controlsConfig={textControls}/>
     </StyledBox>
   );
 };

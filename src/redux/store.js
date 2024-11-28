@@ -3,12 +3,12 @@ import { Provider } from 'react-redux';
 import { thunk } from 'redux-thunk';
 import authReducer from './authReducer';
 import navigationReducer from './navigationReducer';
-import textReducer from './controlers/textReducer';
+import {controlsReducer} from './controlers/controlReducers';
 
 const rootReducer = combineReducers({
     auth: authReducer,
     navigation: navigationReducer,
-    text:textReducer
+    controls:controlsReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
