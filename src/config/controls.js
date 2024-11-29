@@ -1,116 +1,106 @@
 export const textControls = [
-    {
-      type: 'text',
-      category: 'basic',
-      label: 'Button Text',
-      valueOf:"text",
-      component: 'TextField',
-      props: {
-        variant: 'outlined',
-        
-      },
+  {
+    type: 'text',
+    category: 'basic',
+    label: 'Button Text',
+    valueOf: 'content', 
+    component: 'TextField',
+    props: {
+      variant: 'outlined',
+      initialValue: "Hello"
     },
-    {
-      type: 'select',
-      category: 'basic',
-      label: 'Text Font',
-      valueOf:"textFont",
-      component: 'Select',
-      options: [
-        { label: 'Roboto', value: 'Roboto' },
-        { label: 'Arial', value: 'Arial' },
-        { label: 'Georgia', value: 'Georgia' },
-        { label: 'Times New Roman', value: 'Times New Roman' },
-        { label: 'Verdana', value: 'Verdana' },
-      ],
-      props: {
-        variant: 'outlined',
-       
-      },
+  },
+  {
+    type: 'select',
+    category: 'basic',
+    label: 'Text Font',
+    valueOf: 'fontFamily',
+    component: 'Select',
+    options: [
+      { label: 'Roboto', value: 'Roboto' },
+      { label: 'Arial', value: 'Arial' },
+      { label: 'Georgia', value: 'Georgia' },
+      { label: 'Times New Roman', value: 'Times New Roman' },
+      { label: 'Verdana', value: 'Verdana' },
+    ],
+    props: {
+      variant: 'outlined',
+      initialValue: "Roboto"
     },
-    {
+  },
+  {
+    type: 'color',
+    category: 'basic',
+    label: 'Font Color',
+    valueOf: 'color',
+    component: 'TextField',
+    props: {
+      variant: 'outlined',
       type: 'color',
-      category: 'basic',
-      label: 'Font Color',
-      valueOf:"color",
-      component: 'TextField',
-      props: {
-        variant: 'outlined',
-        type: 'color',
-        
-      },
+      initialValue: "#ff7fff"
     },
-    {
+  },
+  {
+    type: 'number',
+    category: 'basic',
+    label: 'Font Size',
+    valueOf: 'fontSize',
+    component: 'Slider',
+    props: {
+      variant: 'outlined',
       type: 'number',
-      category: 'basic',
-      label: 'Font Size',
-      valueOf:"fontSize",
-      component: 'Slider',
-      props: {
-        variant: 'outlined',
-        type: 'number',
-        
-        min: 0,
-        max: 50,
-        step: 1,
-      },
+      min: 0,
+      max: 50,
+      step: 1,
+      unit: 'px', 
+      initialValue: "16px"
     },
-    {
+  },
+  {
+    type: 'number',
+    category: 'basic',
+    label: 'Font Weight',
+    valueOf: 'fontWeight',
+    component: 'Slider',
+    props: {
+      variant: 'outlined',
       type: 'number',
-      category: 'basic',
-      label: 'Font Weight',
-      valueOf:"fontWeight",
-      component: 'Slider',
-      props: {
-        variant: 'outlined',
-        type: 'number',
-       
-        min: 100,
-        max: 900,
-        step: 100,
-      },
+      min: 100,
+      max: 900,
+      step: 100,
+      initialValue: "400"
     },
-    {
-      type: 'number',
-      category: 'advanced',
-      label: 'Letter Spacing',
-      valueOf:"letterSpacing",
-      component: 'Slider',
-      props: {
-        
-        min: -5,
-        max: 20,
-        step: 0.5,
-      },
+  },
+  {
+    type: 'number',
+    category: 'advanced',
+    label: 'Letter Spacing',
+    valueOf: 'letterSpacing',
+    component: 'Slider',
+    props: {
+      min: -5,
+      max: 20,
+      step: 0.5,
+      unit: 'px',
+      initialValue: "normal" // arba "0px"
     },
-    {
-      type: 'number',
-      category: 'advanced',
-      label: 'Word Spacing',
-      valueOf:"wordSpacing",
-      component: 'Slider',
-      props: {
-        
-        min: 0,
-        max: 50,
-        step: 1,
-      },
+  },
+  {
+    type: 'number',
+    category: 'advanced',
+    label: 'Word Spacing',
+    valueOf: 'wordSpacing',
+    component: 'Slider',
+    props: {
+      min: 0,
+      max: 50,
+      step: 1,
+      unit: 'px',
+      initialValue: "normal" // arba "0px"
     },
-    {
-      type: 'gradient',
-      category: 'advanced',
-      label: 'Text Gradient',
-      valueOf:"textGradient",
-      component: 'TextField',
-      props: {
-        variant: 'outlined',
-        placeholder: 'e.g., linear-gradient(to right, red, blue)',
-        
-      },
-    },
-    
-    
-  ];
+  },
+];
+
   
   export const borderRadiusControls = [
     {
@@ -243,7 +233,7 @@ export const textControls = [
       },
     },
     {
-      type: 'text',
+      type: 'color',
       category: 'advanced',
       label: 'Gradient Start Color',
       component: 'TextField',
@@ -253,7 +243,7 @@ export const textControls = [
       },
     },
     {
-      type: 'text',
+      type: 'color',
       category: 'advanced',
       label: 'Gradient End Color',
       component: 'TextField',

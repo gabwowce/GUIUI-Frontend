@@ -6,7 +6,7 @@ import { updateControl } from '../../redux/controlers/controlActions';
 
 const TextControls = ({ componentId, controlsConfig }) => {
   const dispatch = useDispatch();
-  const componentState = useSelector((state) => state.controls.components[componentId] || {});
+  const componentState = useSelector((state) => state.controls.components[componentId].css || {});
 
 const handleChange = (controlName, value) => {
   console.log(`Control ${controlName} changed to:`, value); // Debugging: Check control name and value
@@ -25,7 +25,7 @@ const handleChange = (controlName, value) => {
             {renderControl(
               control, 
               handleChange, 
-              componentState[control.name] || ''
+              componentState[control.name] 
             )}
           </div>
         ))}

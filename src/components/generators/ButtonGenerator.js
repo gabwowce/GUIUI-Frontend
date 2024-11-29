@@ -20,11 +20,25 @@ const ButtonGenerator = () => {
 
   const generateCSS = (styles) => {
     return Object.entries(styles)
-      .map(([key, value]) => `  ${camelToKebab(key)}: ${value};`)
+      .map(([key, value]) => {
+        // Patikrinkite, ar reikšmė yra skaičius ir jei taip, ar yra unit
+        const controlConfig = textControls.find(control => control.valueOf === key);  // Rasti kontrolerį pagal key
+        const unit = controlConfig ? controlConfig.props.unit : ''; // Gauti unit iš kontrolerio (jei jis yra)
+        
+        // Jei unit yra, pridėkite jį prie skaičiaus, jei reikšmė yra skaičius
+        const valueWithUnit = typeof value === 'number' && unit ? `${value}${unit}` : value;
+  
+        return `  ${camelToKebab(key)}: ${valueWithUnit};`; // Grąžiname su pritaikytu unit
+      })
       .join('\n');
   };
 
-  const styles = useSelector((state) => state.controls.components.button || {});
+  const styles = useSelector((state) => {
+    const buttonStyles = state.controls.components.button.css || {};
+    console.log('Styles from Redux:', buttonStyles); // Patikrinkite, kokie duomenys grįžta iš Redux
+    return buttonStyles;
+  });
+  const btnContent = useSelector((state)=> state.controls.components.button.text)
   const [css, setCss] = useState('');
 
   useEffect(() => {
@@ -34,15 +48,16 @@ const ButtonGenerator = () => {
     setCss(newCss);
   }, [styles]);
 
-  const generatedHTML = `<button class="custom-button">click</button>`;
+  const generatedHTML = `<button class="custom-button">${btnContent}</button>`;
 
   return (
     <StyledBox>
       <PreviewGeneratorTemplate
-        key={css} // Priverčia komponentą persirenderinti su nauju CSS
+        key={css} 
         initialHtml={generatedHTML}
         initialCss={css}
         initialJs={''}
+        initialText={btnContent}
         initialPreviewWidth={'30%'}
       />
     <TextControls componentId={"button"} controlsConfig={textControls}/>

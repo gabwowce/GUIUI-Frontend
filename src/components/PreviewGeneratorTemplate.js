@@ -14,14 +14,15 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 import 'monaco-editor/min/vs/editor/editor.main.css';
 
-const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialPreviewWidth }) => {
+const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialText, initialPreviewWidth }) => {
   const [html, setHtml] = useState(initialHtml);
   const [css, setCss] = useState(initialCss);
   const [js, setJs] = useState(initialJs);
   const [activeTab, setActiveTab] = useState(0);
-  const [bgColor, setBgColor] = useState('#e8e8e8'); 
-  const [showColorPicker, setShowColorPicker] = useState(false);  
-  const [tabWidth, setTabWidth] = useState(''); 
+  const [bgColor, setBgColor] = useState('#e8e8e8');
+  const [showColorPicker, setShowColorPicker] = useState(false);
+  const [tabWidth, setTabWidth] = useState('');
+  const [showCode, setShowCode] = useState(false); // Track if the "Get Code" button is clicked
 
   const handleIframeClick = () => {
     setShowColorPicker(false);
@@ -31,21 +32,21 @@ const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialP
 
   const handleClickOutside = (e) => {
     if (colorPickerRef.current && !colorPickerRef.current.contains(e.target)) {
-      setShowColorPicker(false); 
+      setShowColorPicker(false);
     }
   };
 
   useEffect(() => {
-    document.addEventListener('mousedown', handleClickOutside); 
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside); 
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
   useEffect(() => {
-    const numericWidth = parseFloat(initialPreviewWidth); 
-    setTabWidth(numericWidth <= 30 ? '90%' : '50%'); 
+    const numericWidth = parseFloat(initialPreviewWidth);
+    setTabWidth(numericWidth <= 30 ? '90%' : '50%');
   }, [initialPreviewWidth]);
 
   const toggleColorPicker = () => {
@@ -57,11 +58,15 @@ const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialP
   };
 
   const toggleTheme = () => {
-    setBgColor((prev) => (prev === '#e8e8e8' ? '#212121' : '#e8e8e8')); 
+    setBgColor((prev) => (prev === '#e8e8e8' ? '#212121' : '#e8e8e8'));
   };
 
   const handleTabChange = (event, newValue) => {
     setActiveTab(newValue);
+  };
+
+  const handleGetCode = () => {
+    setShowCode(true); // Show code editors when the button is clicked
   };
 
   return (
@@ -71,8 +76,8 @@ const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialP
           <ThemeSwitch
             checked={bgColor === '#212121'}
             onChange={toggleTheme}
-            icon={<Brightness7Icon />} 
-            checkedIcon={<Brightness4Icon />} 
+            icon={<Brightness7Icon />}
+            checkedIcon={<Brightness4Icon />}
           />
           <ColorCodeLabel>{bgColor}</ColorCodeLabel>
           <ColorPickerButton onClick={toggleColorPicker} bgColor={bgColor} />
@@ -82,7 +87,7 @@ const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialP
               ref={colorPickerRef}
               style={{
                 position: 'absolute',
-                top: '100%', 
+                top: '100%',
                 zIndex: 9999,
               }}
             >
@@ -91,7 +96,7 @@ const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialP
           )}
         </BgColorChangerBox>
 
-        {/* Mygtukas peržiūrai */}
+        {/* Preview Box */}
         <Box
           sx={{
             border: 'none',
@@ -100,24 +105,131 @@ const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialP
             height: '400px',
             backgroundColor: bgColor,
             display: 'flex',
-            justifyContent: 'center', // Centravimas horizontalus
-            alignItems: 'center', // Centravimas vertikalus
+            justifyContent: 'center', // Horizontal center
+            alignItems: 'center', // Vertical center
           }}
         >
           <button
             style={{
-              ...convertCssToJs(initialCss), // Konvertuoti CSS tekstą į inline stilius
+              ...convertCssToJs(initialCss), // Convert CSS text to inline styles
               padding: '10px 20px',
               cursor: 'pointer',
             }}
           >
-            click
+            {initialText}
           </button>
         </Box>
+
+        {/* "Get Code" Button */}
+        <Button variant="contained" color="primary" onClick={handleGetCode} sx={{ marginTop: '20px' }}>
+          Get Code
+        </Button>
       </PreviewBox>
+
+      {showCode && (
+        <CodeBox>
+          <TabBox tabWidth={tabWidth}>
+            <Tabs
+              value={activeTab}
+              onChange={handleTabChange}
+              aria-label="editor tabs"
+              variant="fullWidth"
+              sx={{
+                '& .MuiTabs-indicator': {
+                  display: 'none',
+                },
+              }}
+            >
+              <StyledTab
+                icon={<img src={CodeIcon} alt="HTML" style={{ width: 24, height: 24 }} />}
+                iconPosition="start"
+                label="HTML"
+                activeTab={activeTab}
+                tabIndex={0}
+              />
+              <StyledTab
+                icon={<img src={StyleIcon} alt="CSS" style={{ width: 24, height: 24 }} />}
+                iconPosition="start"
+                label="CSS"
+                activeTab={activeTab}
+                tabIndex={1}
+              />
+              <StyledTab
+                icon={<img src={JavascriptIcon} alt="JavaScript" style={{ width: 20, height: 20 }} />}
+                iconPosition="start"
+                label="JavaScript"
+                activeTab={activeTab}
+                tabIndex={2}
+              />
+            </Tabs>
+          </TabBox>
+
+          {/* HTML, CSS, JavaScript Editors */}
+          {activeTab === 0 && (
+            <MirrorBox>
+              <MonacoEditor
+                height="80%"
+                language="html"
+                value={html}
+                theme="vs-dark"
+                onChange={(value) => setHtml(value)}
+                options={{
+                  selectOnLineNumbers: true,
+                  lineNumbers: 'on',
+                  wordWrap: 'on',
+                  autoIndent: false,
+                  padding: { top: 20 },
+                  fixedOverflowWidgets: true,
+                }}
+              />
+            </MirrorBox>
+          )}
+
+          {activeTab === 1 && (
+            <MirrorBox>
+              <MonacoEditor
+                height="80%"
+                language="css"
+                value={css}
+                theme="vs-dark"
+                onChange={(value) => setCss(value)}
+                options={{
+                  selectOnLineNumbers: true,
+                  lineNumbers: 'on',
+                  wordWrap: 'on',
+                  autoIndent: true,
+                  padding: { top: 20 },
+                  fixedOverflowWidgets: true,
+                }}
+              />
+            </MirrorBox>
+          )}
+
+          {activeTab === 2 && (
+            <MirrorBox>
+              <MonacoEditor
+                height="80%"
+                language="javascript"
+                value={js}
+                theme="vs-dark"
+                onChange={(value) => setJs(value)}
+                options={{
+                  selectOnLineNumbers: true,
+                  lineNumbers: 'on',
+                  wordWrap: 'on',
+                  autoIndent: true,
+                  padding: { top: 20 },
+                  fixedOverflowWidgets: true,
+                }}
+              />
+            </MirrorBox>
+          )}
+        </CodeBox>
+      )}
     </StyledBox>
   );
 };
+
 
 const convertCssToJs = (cssString) => {
   const styles = {};
