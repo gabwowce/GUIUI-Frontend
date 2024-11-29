@@ -14,7 +14,7 @@ import Brightness7Icon from '@mui/icons-material/Brightness7';
 
 import 'monaco-editor/min/vs/editor/editor.main.css';
 
-const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialText, initialPreviewWidth }) => {
+const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialText, initialPreviewWidth, GeneratedComponent }) => {
   const [html, setHtml] = useState(initialHtml);
   const [css, setCss] = useState(initialCss);
   const [js, setJs] = useState(initialJs);
@@ -109,15 +109,8 @@ const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialT
             alignItems: 'center', // Vertical center
           }}
         >
-          <button
-            style={{
-              ...convertCssToJs(initialCss), // Convert CSS text to inline styles
-              padding: '10px 20px',
-              cursor: 'pointer',
-            }}
-          >
-            {initialText}
-          </button>
+          <GeneratedComponent/>
+
         </Box>
 
         {/* "Get Code" Button */}
@@ -234,13 +227,15 @@ const PreviewGeneratorTemplate = ({ initialHtml, initialCss, initialJs, initialT
 const convertCssToJs = (cssString) => {
   const styles = {};
   cssString
-    .split(';')
-    .map((rule) => rule.trim())
-    .filter((rule) => rule)
+    .split(';') // Padalinkite pagal CSS taisyklių pabaigos ženklą
+    .map((rule) => rule.trim()) // Pašalinkite tarpus prieš ir po kiekvienos taisyklės
+    .filter((rule) => rule) // Pašalinkite tuščius elementus
     .forEach((rule) => {
-      const [key, value] = rule.split(':').map((part) => part.trim());
-      const jsKey = key.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase());
-      styles[jsKey] = value;
+      const [key, value] = rule.split(':').map((part) => part.trim()); // Padalinkite kiekvieną taisyklę pagal ":"
+      if (key && value) {
+        const jsKey = key.replace(/-([a-z])/g, (match, letter) => letter.toUpperCase()); // CSS į JS konversija
+        styles[jsKey] = value; // Priedėkite prie objektų
+      }
     });
   return styles;
 };

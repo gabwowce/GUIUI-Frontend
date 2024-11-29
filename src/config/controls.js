@@ -7,9 +7,10 @@ export const textControls = [
     component: 'TextField',
     props: {
       variant: 'outlined',
-      initialValue: "Hello"
+      initialValue: "test"
     },
   },
+  
   {
     type: 'select',
     category: 'basic',
@@ -17,15 +18,31 @@ export const textControls = [
     valueOf: 'fontFamily',
     component: 'Select',
     options: [
-      { label: 'Roboto', value: 'Roboto' },
-      { label: 'Arial', value: 'Arial' },
-      { label: 'Georgia', value: 'Georgia' },
-      { label: 'Times New Roman', value: 'Times New Roman' },
-      { label: 'Verdana', value: 'Verdana' },
+      { label: 'Roboto', value: 'Roboto', import: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap' },
+      { label: 'Arial', value: 'Arial' }, // Šis šriftas dažniausiai yra sistemoje
+      { label: 'Georgia', value: 'Georgia' }, // Šis šriftas dažniausiai yra sistemoje
+      { label: 'Times New Roman', value: 'Times New Roman' }, // Šis šriftas dažniausiai yra sistemoje
+      { label: 'Bebas Neue', value: 'Bebas Neue', import: 'https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap' },
+      { label: 'Courier New', value: 'Courier New' }, // Šis šriftas dažniausiai yra sistemoje
+      { label: 'Tahoma', value: 'Tahoma' }, // Šis šriftas dažniausiai yra sistemoje
+      { label: 'Verdana', value: 'Verdana' }, // Šis šriftas dažniausiai yra sistemoje
+      { label: 'Montserrat', value: 'Montserrat', import: 'https://fonts.googleapis.com/css2?family=Montserrat&display=swap' },
+      { label: 'Open Sans', value: 'Open Sans', import: 'https://fonts.googleapis.com/css2?family=Open+Sans&display=swap' },
+      { label: 'Lato', value: 'Lato', import: 'https://fonts.googleapis.com/css2?family=Lato&display=swap' },
+      { label: 'Poppins', value: 'Poppins', import: 'https://fonts.googleapis.com/css2?family=Poppins&display=swap' },
+      { label: 'Oswald', value: 'Oswald', import: 'https://fonts.googleapis.com/css2?family=Oswald&display=swap' },
+      { label: 'Playfair Display', value: 'Playfair Display', import: 'https://fonts.googleapis.com/css2?family=Playfair+Display&display=swap' },
+      { label: 'Merriweather', value: 'Merriweather', import: 'https://fonts.googleapis.com/css2?family=Merriweather&display=swap' },
+      { label: 'Raleway', value: 'Raleway', import: 'https://fonts.googleapis.com/css2?family=Raleway&display=swap' },
+      { label: 'Fira Sans', value: 'Fira Sans', import: 'https://fonts.googleapis.com/css2?family=Fira+Sans&display=swap' },
+      { label: 'Ubuntu', value: 'Ubuntu', import: 'https://fonts.googleapis.com/css2?family=Ubuntu&display=swap' },
+      { label: 'Exo 2', value: 'Exo 2', import: 'https://fonts.googleapis.com/css2?family=Exo+2&display=swap' },
+      { label: 'Slabo 27px', value: 'Slabo 27px', import: 'https://fonts.googleapis.com/css2?family=Slabo+27px&display=swap' },
+      { label: 'Quicksand', value: 'Quicksand', import: 'https://fonts.googleapis.com/css2?family=Quicksand&display=swap' }
     ],
     props: {
       variant: 'outlined',
-      initialValue: "Roboto"
+      initialValue: "Bebas Neue"
     },
   },
   {
@@ -53,7 +70,7 @@ export const textControls = [
       max: 50,
       step: 1,
       unit: 'px', 
-      initialValue: "16px"
+      initialValue: 16
     },
   },
   {
@@ -68,7 +85,7 @@ export const textControls = [
       min: 100,
       max: 900,
       step: 100,
-      initialValue: "400"
+      initialValue: 400
     },
   },
   {
@@ -82,7 +99,7 @@ export const textControls = [
       max: 20,
       step: 0.5,
       unit: 'px',
-      initialValue: "normal" // arba "0px"
+      initialValue: 0
     },
   },
   {
@@ -96,7 +113,7 @@ export const textControls = [
       max: 50,
       step: 1,
       unit: 'px',
-      initialValue: "normal" // arba "0px"
+      initialValue: 0
     },
   },
 ];
@@ -106,56 +123,66 @@ export const textControls = [
     {
       type: 'number',
       label: 'All Corners Border Radius',
+      valueOf: 'borderRadius',
       component: 'Slider',
       props: {
         min: 0,
         max: 50,
         step: 1,
-        defaultValue: 10, 
+        unit: 'px',
+        initialValue: 10, 
       },
     },
     {
       type: 'number',
       label: 'Border Top Left Radius',
+      valueOf: 'borderTopLeftRadius',
       component: 'Slider',
       props: {
         min: 0,
         max: 50,
         step: 1,
-        defaultValue: 10, 
+        unit: 'px',
+        initialValue: 10, 
       },
     },
     {
       type: 'number',
       label: 'Border Top Right Radius',
+      valueOf: 'borderTopRightRadius',
       component: 'Slider',
       props: {
         min: 0,
         max: 50,
         step: 1,
-        defaultValue: 10, 
+        unit: 'px',
+        initialValue: 10, 
       },
     },
     {
       type: 'number',
       label: 'Border Bottom Left Radius',
+      valueOf: 'borderBottomLeftRadius',
       component: 'Slider',
       props: {
         min: 0,
         max: 50,
         step: 1,
-        defaultValue: 10, 
+        unit: 'px',
+        initialValue: 10, 
       },
     },
     {
       type: 'number',
       label: 'Border Bottom Right Radius',
+      valueOf: 'borderBottomRightRadius',
       component: 'Slider',
       props: {
         min: 0,
         max: 50,
         step: 1,
-        defaultValue: 10, 
+        unit: 'px',
+        initialValue: 10, 
       },
     },
   ];
