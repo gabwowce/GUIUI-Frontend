@@ -10,42 +10,17 @@ const BorderRadiusControls = ({ componentId, controlsConfig }) => {
 
   // Funkcija, kuri atnaujina kampus
   const handleChange = (controlName, value) => {
-    console.log(`Control ${controlName} changed to:`, value); // Debugging: Check control name and value
-    
-    if (controlName === 'borderRadius') {
-        const allCornersEqual = Object.values(componentState).every(val => val === value);
-      
-        if (allCornersEqual) {
-          // Jei visi kampai vienodi, nustatome tik borderRadius
-          dispatch(updateControl(componentId, 'borderRadius', value));
-      
-          // Pašaliname likusius kampus tik jei jie egzistuoja
-          ['borderTopLeftRadius', 'borderTopRightRadius', 'borderBottomLeftRadius', 'borderBottomRightRadius'].forEach(corner => {
-            if (componentState[corner] !== undefined) {
-              dispatch(removeControl(componentId, corner));
-            }
-          });
-        } else {
-          // Jei kampai skiriasi, įrašome kiekvieną atskirai
-          dispatch(updateControl(componentId, 'borderTopLeftRadius', value));
-          dispatch(updateControl(componentId, 'borderTopRightRadius', value));
-          dispatch(updateControl(componentId, 'borderBottomLeftRadius', value));
-          dispatch(updateControl(componentId, 'borderBottomRightRadius', value));
-      
-          // Pašaliname bendrą borderRadius tik jei jis egzistuoja
-          if (componentState['borderRadius'] !== undefined) {
-            dispatch(removeControl(componentId, 'borderRadius'));
-          }
-        }
-      } else if (value === 1) {
-        // Jei kampo reikšmė 0, pašaliname jį iš state tik jei jis egzistuoja
-        if (componentState[controlName] !== undefined) {
-          dispatch(removeControl(componentId, controlName));
-        }
-      } else {
-        // Kita atnaujinimo logika
-        dispatch(updateControl(componentId, controlName, value));
+
+    if(value === 0){
+      if(empty?.componentState[controlName]){
+        dispatch(removeControl(componentId, controlName));
+      }else{
+        return
       }
+    }else{
+      dispatch(updateControl(componentId, controlName, value));
+    }
+    
   };
 
   return (
