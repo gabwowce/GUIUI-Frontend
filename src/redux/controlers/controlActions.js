@@ -2,10 +2,10 @@
 export const UPDATE_CONTROL = 'UPDATE_CONTROL';
 export const REMOVE_CONTROL = 'REMOVE_CONTROL';
 
-export const updateControl = (componentId, controlName, value) => {
+export const updateControl = (componentId, controlName, value, shouldGenerate = true) => {
   return {
     type: UPDATE_CONTROL,
-    payload: { componentId, controlName, value },
+    payload: { componentId, controlName, value, shouldGenerate  },
   };
 };
 

@@ -28,7 +28,7 @@ return (
           {renderControl(
             control, 
             handleChange, 
-            control.type === 'text' ? btnContent : componentState[control.valueOf] 
+            control.type === 'text' ? btnContent : componentState[control.valueOf].value 
           )}
         </div>
       ))}

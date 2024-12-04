@@ -26,9 +26,8 @@ const initialState = generateInitialState(textControls);
 export const controlsReducer = (state = initialState, action) => {
   switch (action.type) {
     case UPDATE_CONTROL:
-      const { componentId, controlName, value } = action.payload;
-      console.log(`Reducer: Updating control ${controlName} for component ${componentId} with value: ${value}`);
-      
+      const { componentId, controlName, value, shouldGenerate } = action.payload;
+
       // Check if the control being updated is a text control
       if (controlName === 'content') {
         // Update the text property (e.g., button text)
@@ -53,21 +52,28 @@ export const controlsReducer = (state = initialState, action) => {
             ...state.components[componentId],
             css: {
               ...state.components[componentId].css,
-              [controlName]: value,  // Update the specific CSS property
+              [controlName]: { value, shouldGenerate },
             },
           },
         },
       };
-    case REMOVE_CONTROL:
-        const updatedComponentState = { ...state.components[componentId] };
-        delete updatedComponentState[controlName];
+      case REMOVE_CONTROL: {
+        const { componentId, controlName } = action.payload; // Properly destructure
+        const updatedCss = { ...state.components[componentId]?.css };
+        delete updatedCss[controlName]; // Remove the specific key
+      
         return {
           ...state,
           components: {
             ...state.components,
-            [componentId]: updatedComponentState
-          }
+            [componentId]: {
+              ...state.components[componentId],
+              css: updatedCss,
+            },
+          },
         };
+      }
+
 
     default:
       return state;

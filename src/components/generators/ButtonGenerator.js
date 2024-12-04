@@ -9,6 +9,7 @@ import {textControls, borderRadiusControls} from "../../config/controls";
 
 import { useDispatch, useSelector } from 'react-redux';
 
+const componentId = "button";
 
 const camelToKebab = (str) => {
   return str.replace(/[A-Z]/g, (match) => `-${match.toLowerCase()}`);
@@ -19,35 +20,45 @@ const allControls = [...textControls, ...borderRadiusControls];
 const ButtonGenerator = () => {
   const generateCSS = (styles, selectedFont) => {
     let cssString = '';
-
-    // Ieškome šrifto konfigūracijos, kad gautume import URL
+  
+    // Find the font import configuration
     const fontControl = textControls.find(control => control.valueOf === 'fontFamily');
     const selectedFontConfig = fontControl?.options.find(option => option.value === selectedFont);
     
-    // Jei šrifto importas yra nurodytas, pridedame jį į CSS prieš .custom-button
+    // If the font import URL is available, add it to CSS before .custom-button
     let fontImport = '';
     if (selectedFontConfig?.import) {
       fontImport = `@import url('${selectedFontConfig.import}');\n`;
     }
-
-    // Sugeneruojame likusį CSS
-    cssString += Object.entries(styles)
-    .map(([key, value]) => {
-      const controlConfig = allControls.find(control => control.valueOf === key);  
-      const unit = controlConfig ? controlConfig.props.unit : ''; 
-
-      const valueWithUnit = typeof value === 'number' && unit ? `${value}${unit}` : value;
-      return `  ${camelToKebab(key)}: ${valueWithUnit};`; 
-    })
-    .join('\n');
   
-  // Grąžiname @import ir .custom-button kartu su sugeneruotu CSS
-  return `${fontImport}\n.custom-button {\n${cssString}\n}`;
-};
+    // Generate the remaining CSS, but make sure border-radius is handled first
+    const borderRadiusValue = styles['borderRadius'] ? styles['borderRadius'].value : '';
+    const borderRadiusUnit = 'px';  // Ensure unit is always 'px' for border-radius
+    const borderRadiusCSS = borderRadiusValue ? `  border-radius: ${borderRadiusValue}${borderRadiusUnit};\n` : '';
+  
+    // Now generate the rest of the styles for other border radii
+    const otherBorderRadiusStyles = Object.entries(styles)
+      .filter(([key, { shouldGenerate }]) => shouldGenerate && key !== 'borderRadius') // Exclude borderRadius from initial filtering
+      .map(([key, { value }]) => { // Ensure we're accessing the `value` property here
+        const controlConfig = allControls.find(control => control.valueOf === key);  
+        const unit = controlConfig ? controlConfig.props.unit : ''; 
+  
+        // Add unit if it's a number and unit exists
+        const valueWithUnit = typeof value === 'number' && unit ? `${value}${unit}` : value;
+        return `  ${camelToKebab(key)}: ${valueWithUnit};`; 
+      })
+      .join('\n');
+  
+    // Combine everything: font import, border-radius first, then other border-radius styles
+    cssString = `${fontImport}\n.custom-button {\n${borderRadiusCSS}${otherBorderRadiusStyles}\n}`;
+  
+    return cssString;
+  };
+  
+  
 
   const styles = useSelector((state) => {
     const buttonStyles = state.controls.components.button.css || {};
-    console.log('Styles from Redux:', buttonStyles); 
     return buttonStyles;
   });
 
@@ -84,8 +95,8 @@ const ButtonGenerator = () => {
         initialPreviewWidth={'30%'}
         GeneratedComponent={StyledButton}
       />
-      <TextControls componentId={"button"} controlsConfig={textControls}/>
-      <BorderRadiusControls componentId={"button"} controlsConfig={borderRadiusControls}/>
+      <TextControls componentId={componentId} controlsConfig={textControls}/>
+      <BorderRadiusControls componentId={componentId} controlsConfig={borderRadiusControls}/>
     </StyledBox>
   );
 };
