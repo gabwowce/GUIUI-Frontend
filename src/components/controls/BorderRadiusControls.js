@@ -46,9 +46,7 @@ const BorderRadiusControls = ({ componentId, controlsConfig }) => {
   return (
     <Card sx={{ marginBottom: 2, padding: 2 }}>
       <CardContent>
-        <Typography variant="h6" gutterBottom>
-          {componentId.charAt(0).toUpperCase() + componentId.slice(1)} Controls
-        </Typography>
+        
         {controlsConfig.map((control, index) => (
           <div key={index} style={{ marginBottom: '16px' }}>
             <Typography variant="body2" gutterBottom>{control.label}</Typography>

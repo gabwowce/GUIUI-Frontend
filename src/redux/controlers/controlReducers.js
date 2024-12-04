@@ -6,16 +6,17 @@ const generateInitialState = (controls) => {
   const buttonTextControl = controls.find(control => control.valueOf === 'content');
   const buttonText = buttonTextControl ? buttonTextControl.props.initialValue : "Click me";
 
+  // Ensure CSS properties are correctly initialized
   controls.forEach(({ valueOf, props: { initialValue = "" } }) => {
     if (valueOf !== 'content') {
-      initialButtonState[valueOf] = initialValue; // Pasiimame pradines reikšmes iš configo
+      initialButtonState[valueOf] = { value: initialValue, shouldGenerate: true }; // Add shouldGenerate flag for each CSS property
     }
   });
 
   return {
     components: {
       button: {
-        css: { ...initialButtonState },  // Įrašome pradines reikšmes
+        css: { ...initialButtonState },  // Save initial CSS values
         text: buttonText,
       },
     },
