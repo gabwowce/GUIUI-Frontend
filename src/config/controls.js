@@ -46,18 +46,6 @@ export const textControls = [
     },
   },
   {
-    type: 'color',
-    category: 'basic',
-    label: 'Font Color',
-    valueOf: 'color',
-    component: 'TextField',
-    props: {
-      variant: 'outlined',
-      type: 'color',
-      initialValue: "#ff7fff"
-    },
-  },
-  {
     type: 'number',
     category: 'basic',
     label: 'Font Size',
@@ -114,6 +102,18 @@ export const textControls = [
       step: 1,
       unit: 'px',
       initialValue: 0
+    },
+  },
+  {
+    type: 'color',
+    category: 'basic',
+    label: 'Font Color',
+    valueOf: 'color',
+    component: 'ColorPicker',
+    props: {
+      variant: 'outlined',
+      type: 'color',
+      initialValue: "#ff7fff"
     },
   },
 ];

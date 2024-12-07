@@ -6,17 +6,16 @@ const generateInitialState = (controls) => {
   const buttonTextControl = controls.find(control => control.valueOf === 'content');
   const buttonText = buttonTextControl ? buttonTextControl.props.initialValue : "Click me";
 
-  // Ensure CSS properties are correctly initialized
   controls.forEach(({ valueOf, props: { initialValue = "" } }) => {
     if (valueOf !== 'content') {
-      initialButtonState[valueOf] = { value: initialValue, shouldGenerate: true }; // Add shouldGenerate flag for each CSS property
+      initialButtonState[valueOf] = { value: initialValue, shouldGenerate: true }; 
     }
   });
 
   return {
     components: {
       button: {
-        css: { ...initialButtonState },  // Save initial CSS values
+        css: { ...initialButtonState },  
         text: buttonText,
       },
     },
@@ -29,22 +28,19 @@ export const controlsReducer = (state = initialState, action) => {
     case UPDATE_CONTROL:
       const { componentId, controlName, value, shouldGenerate } = action.payload;
 
-      // Check if the control being updated is a text control
       if (controlName === 'content') {
-        // Update the text property (e.g., button text)
         return {
           ...state,
           components: {
             ...state.components,
             [componentId]: {
               ...state.components[componentId],
-              text: value,  // Update the text (e.g., button text)
+              text: value, 
             },
           },
         };
       }
       
-      // Update css property if it's not a text control
       return {
         ...state,
         components: {
@@ -59,9 +55,9 @@ export const controlsReducer = (state = initialState, action) => {
         },
       };
       case REMOVE_CONTROL: {
-        const { componentId, controlName } = action.payload; // Properly destructure
+        const { componentId, controlName } = action.payload; 
         const updatedCss = { ...state.components[componentId]?.css };
-        delete updatedCss[controlName]; // Remove the specific key
+        delete updatedCss[controlName]; 
       
         return {
           ...state,

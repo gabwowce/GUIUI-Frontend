@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField, Select, MenuItem, Slider, Switch, RadioGroup, FormControlLabel, Radio,Typography  } from '@mui/material';
+import { TextField, Select, MenuItem, Slider, Switch, RadioGroup, FormControlLabel, Radio,Typography, Box, FormControl, InputLabel  } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -7,68 +7,68 @@ export const renderControl = (control, handleChange, currentValue) => {
   switch (control.component) {
     case 'TextField':
       return (
-        <>
-         <Typography variant="body" gutterBottom>
-          {control.label.charAt(0).toUpperCase() + control.label.slice(1)} 
-        </Typography>
-        <TextField
-          label={control.label}
-          variant="outlined"
-          value={currentValue || ''} 
-          onChange={(e) => handleChange(control.valueOf, e.target.value)} 
-          {...control.props}
-        />
-        </>
+        <StyledTextFieldBox>
+          {/* <Typography variant="body" gutterBottom>
+            {control.label.charAt(0).toUpperCase() + control.label.slice(1)} 
+          </Typography> */}
+          <TextField
+            label={control.label}
+            variant="outlined"
+            value={currentValue || ''} 
+            onChange={(e) => handleChange(control.valueOf, e.target.value)} 
+            {...control.props}
+          />
+        </StyledTextFieldBox>
        
       );
-    case 'Select':
-      return (
-       <>
-        <Typography variant="body" gutterBottom>
-        {control.label.charAt(0).toUpperCase() + control.label.slice(1)} 
-        </Typography>
-        <Select
-          label={control.label}
-          value={currentValue || ''} 
-          onChange={(e) => handleChange(control.valueOf, e.target.value)} 
-          {...control.props}
-        >
-          {control.options.map((option, index) => (
-            <MenuItem key={index} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </Select>
-       </>
-       
-      );
+      case 'Select':
+        return (
+          <>
+            <FormControl fullWidth>
+              <InputLabel>{control.label}</InputLabel>
+              <Select
+                label={control.label}
+                value={currentValue || ''}
+                onChange={(e) => handleChange(control.valueOf, e.target.value)}
+                {...control.props}
+              >
+                {control.options.map((option, index) => (
+                  <MenuItem key={index} value={option.value}>
+                    {option.label}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </>
+        );
       case 'Slider':
         return (
-          <div style={{ width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-            <Typography variant="body" gutterBottom>
-            {control.label.charAt(0).toUpperCase() + control.label.slice(1)} 
-        </Typography>
-            <Slider
-              value={currentValue || 0} 
-              min={control.props.min || 0} 
-              max={control.props.max || 50} 
-              onChange={(e, value) => handleChange(control.valueOf, value)}
-              {...control.props} 
-            />
+          <StyledTextFieldBox>
+            <SmallTypography variant="body">
+                {control.label.charAt(0).toUpperCase() + control.label.slice(1)} 
+            </SmallTypography>
+            <StyledBox>
+              <Slider
+                value={currentValue} 
+                min={control.props.min} 
+                max={control.props.max} 
+                onChange={(e, value) => handleChange(control.valueOf, value)}
+                {...control.props} 
+              />
 
-            <StyledTextField
-              value={currentValue || 0} 
-              onChange={(e) => {
-                const newValue = parseInt(e.target.value, 10);
-                if (!isNaN(newValue)) {
-                  handleChange(control.valueOf, newValue); 
-                }
-              }}
-              type="number"
-              inputProps={{ min: control.props.min || 0, max: control.props.max || 50 }}
-              style={{ marginTop: 10 }}
-            />
-          </div>
+              <StyledValue
+                value={currentValue || 0} 
+                onChange={(e) => {
+                  const newValue = parseInt(e.target.value, 10);
+                  if (!isNaN(newValue)) {
+                    handleChange(control.valueOf, newValue); 
+                  }
+                }}
+                type="number"
+              />
+            
+            </StyledBox>
+          </StyledTextFieldBox>
         );
     case 'Switch':
       return (
@@ -85,17 +85,71 @@ export const renderControl = (control, handleChange, currentValue) => {
         </>
        
       );
+
+    case 'ColorPicker':
+      return (
+        <StyledTextFieldBox>
+          <Box display="flex" gap="10px">
+            <TextField
+              label={control.label}
+              variant="outlined"
+              value={currentValue || ''} 
+              onChange={(e) => handleChange(control.valueOf, e.target.value)} 
+              {...control.props}
+              sx={{
+                flex: 3, 
+                '& .MuiOutlinedInput-root': {
+                  height: '100%',       
+                },
+                // '& .MuiInputBase-input': {           
+                //   padding: '10px',
+                // },
+              }}
+            />
+            <TextField
+              value={currentValue || ''}
+              onChange={(e) => handleChange(control.valueOf, e.target.value)} 
+              variant="outlined"
+              size="small"
+              fullWidth
+              sx={{
+                flex: 2, 
+                '& .MuiOutlinedInput-root': {
+                  height: '100%',        
+                },
+                // '& .MuiInputBase-input': {           
+                //   padding: '10px',
+                // },
+              }}
+            />
+          </Box>
+        </StyledTextFieldBox>
+      );
     default:
       return null;
   }
 };
 
-const StyledTextField = styled(TextField)(({ theme }) => ({
 
-  marginLeft: '10px',             // Adds space between the slider and the input
-  width: '80px',                 // Sets a fixed width for the input
+
+const SmallTypography = styled(Typography)(({ theme }) => ({
+  fontSize:'12px'
+}));
+
+
+const StyledBox = styled(Box)(({ theme }) => ({
+  display:'flex',
+  flexDirection:'row',
+  gap:'10px'
+}));
+
+
+const StyledValue = styled(TextField)(({ theme }) => ({
+
+  marginLeft: '10px',             
+  width: '80px',                 
   '& .MuiInputBase-input': {
-    padding: '0',               // Override padding to 0
+    padding: '0',               
   },
   '& .MuiOutlinedInput-notchedOutline': {
     
@@ -105,8 +159,14 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
     
   },
   '& .MuiInputBase-input': {
-    textAlign: 'left',         // Center-aligns the text inside the input
-    fontSize: '16px',             // Adjust font size
+    textAlign: 'left',         
+    fontSize: '16px',             
     padding: '1px 5px',
   },
+}));
+
+
+const StyledTextFieldBox = styled(Box)(({ theme }) => ({
+  display:'flex',
+  flexDirection:'column',
 }));

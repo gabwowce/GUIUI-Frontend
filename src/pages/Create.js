@@ -3,7 +3,7 @@ import { ChromePicker } from 'react-color';
 import MonacoEditor from '@monaco-editor/react';
 
 import { Tabs, Tab, Box, Container, Button, Switch } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { styled,useTheme } from '@mui/material/styles';
 
 import CodeIcon from '../assets/html.png';
 import StyleIcon from '../assets/css.png';
@@ -21,7 +21,7 @@ const Create = () => {
   const [activeTab, setActiveTab] = useState(0);
   const [bgColor, setBgColor] = useState('#e8e8e8');  // State, kuris saugo background spalvą
   const [showColorPicker, setShowColorPicker] = useState(false);  // State, kuris tvarko ColorPicker matomumą
-
+  const theme = useTheme();
   const handleIframeClick = () => {
     setShowColorPicker(false);
   };
@@ -140,18 +140,10 @@ const Create = () => {
             </div>
           )}
         </BgColorChangerBox>
-        <iframe
-            title="Preview"
-            srcDoc={generateCode()}
-            width="100%"
-            height="80%"
-            style={{
-              border: 'none',
-              borderTopLeftRadius: '24px',
-              borderBottomLeftRadius: '24px',
-              boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-            }}
-          ></iframe>
+        <StyledIframe
+          title="Preview"
+          srcDoc={generateCode()}
+        />
       </PreviewBox>
       <CodeBox>
         <TabBox>
@@ -252,6 +244,17 @@ const Create = () => {
   );
 };
 
+const StyledIframe = styled('iframe')(({ theme }) => ({
+  width: '100%',
+  height: '80%',
+  border: 'none',
+  borderTopLeftRadius: '24px',
+  borderBottomLeftRadius: '24px',
+  boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+  [theme.breakpoints.down('lg')]: {
+    borderRadius: '24px', // Kampai bus suapvalinti visur nuo 'lg' pertraukos
+  },
+}));
 
 const ThemeSwitch = styled(Switch)(({ theme }) => ({
   '& .MuiSwitch-switchBase': {
@@ -348,25 +351,37 @@ const TabBox = styled(Box)({
   height: '35px',
 });
 
-const CodeBox = styled(Box)({
+
+const CodeBox = styled(Box)(({ theme }) => ({
   width: '50%',
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
-});
+  [theme.breakpoints.down('lg')]: {
+    width:'100%',
+    height:'50%',
+  },
+}));
 
-const StyledBox = styled(Container)({
+const StyledBox = styled(Container)(({ theme }) => ({
   display: 'flex',
   height: '100vh',
   flexDirection: 'row',
   padding: '3rem 0 0 0',
-});
+  [theme.breakpoints.down('lg')]: {
+    flexDirection: 'column',
+  },
+}));
 
-const PreviewBox = styled(Box)({
+
+const PreviewBox = styled(Box)(({ theme }) => ({
   width: '50%',
   padding: '35px 0 0 0',
   position: 'relative',
   
-});
-
+  [theme.breakpoints.down('lg')]: {
+    width:'100%',
+    height:'50%',
+  },
+}));
 export default Create;
