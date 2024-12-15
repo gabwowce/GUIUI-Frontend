@@ -1,5 +1,5 @@
 import { UPDATE_CONTROL, REMOVE_CONTROL } from './controlActions';
-import { textControls, paddingControls, borderRadiusControls } from '../../config/controls';
+import { CONTROL_KEYS, textControls, paddingControls, borderRadiusControls } from '../../config/controls';
 
 const generateInitialState = (allControls) => {
   const initialButtonState = {};
@@ -7,7 +7,7 @@ const generateInitialState = (allControls) => {
 
   // Iteruojame per visus valdiklius
   allControls.forEach(({ valueOf, props: { initialValue = "" } }) => {
-    if (valueOf === 'content') {
+    if (valueOf === CONTROL_KEYS.BUTTON_CONTENT) {
       buttonText = initialValue || buttonText; // Pakeičiam "content" tekstą
     } else {
       initialButtonState[valueOf] = { value: initialValue, shouldGenerate: true }; 
@@ -31,7 +31,7 @@ export const controlsReducer = (state = initialState, action) => {
     case UPDATE_CONTROL:
       const { componentId, controlName, value, shouldGenerate } = action.payload;
 
-      if (controlName === 'content') {
+      if (controlName === CONTROL_KEYS.BUTTON_CONTENT) {
         return {
           ...state,
           components: {

@@ -1,9 +1,27 @@
+export const CONTROL_KEYS = {
+  BUTTON_CONTENT: 'content',
+  FONT_FAMILY: 'fontFamily',
+  FONT_SIZE: 'fontSize',
+  FONT_WEIGHT: 'fontWeight',
+  LETTER_SPACING: 'letterSpacing',
+  WORD_SPACING: 'wordSpacing',
+  FONT_COLOR: 'color',
+  BORDER_RADIUS: 'borderRadius',
+  BORDER_TOP_LEFT_RADIUS: 'borderTopLeftRadius',
+  BORDER_TOP_RIGHT_RADIUS: 'borderTopRightRadius',
+  BORDER_BOTTOM_LEFT_RADIUS: 'borderBottomLeftRadius',
+  BORDER_BOTTOM_RIGHT_RADIUS: 'borderBottomRightRadius',
+  HORIZONTAL_PADDING: 'horizontalPadding',
+  VERTICAL_PADDING: 'verticalPadding',
+
+};
+
 export const textControls = [
   {
     type: 'text',
     category: 'basic',
     label: 'Button Text',
-    valueOf: 'content', 
+    valueOf: CONTROL_KEYS.BUTTON_CONTENT,  
     component: 'TextField',
     props: {
       variant: 'outlined',
@@ -15,7 +33,7 @@ export const textControls = [
     type: 'select',
     category: 'basic',
     label: 'Text Font',
-    valueOf: 'fontFamily',
+    valueOf: CONTROL_KEYS.FONT_FAMILY,
     component: 'Select',
     options: [
       { label: 'Roboto', value: 'Roboto', import: 'https://fonts.googleapis.com/css2?family=Roboto&display=swap' },
@@ -49,7 +67,7 @@ export const textControls = [
     type: 'number',
     category: 'basic',
     label: 'Font Size',
-    valueOf: 'fontSize',
+    valueOf: CONTROL_KEYS.FONT_SIZE,
     component: 'Slider',
     props: {
       variant: 'outlined',
@@ -65,7 +83,7 @@ export const textControls = [
     type: 'number',
     category: 'basic',
     label: 'Font Weight',
-    valueOf: 'fontWeight',
+    valueOf: CONTROL_KEYS.FONT_WEIGHT,
     component: 'Slider',
     props: {
       variant: 'outlined',
@@ -80,7 +98,7 @@ export const textControls = [
     type: 'number',
     category: 'advanced',
     label: 'Letter Spacing',
-    valueOf: 'letterSpacing',
+    valueOf: CONTROL_KEYS.LETTER_SPACING,
     component: 'Slider',
     props: {
       min: -5,
@@ -94,7 +112,7 @@ export const textControls = [
     type: 'number',
     category: 'advanced',
     label: 'Word Spacing',
-    valueOf: 'wordSpacing',
+    valueOf: CONTROL_KEYS.WORD_SPACING,
     component: 'Slider',
     props: {
       min: 0,
@@ -108,7 +126,7 @@ export const textControls = [
     type: 'color',
     category: 'basic',
     label: 'Font Color',
-    valueOf: 'color',
+    valueOf: CONTROL_KEYS.FONT_COLOR,
     component: 'ColorPicker',
     props: {
       variant: 'outlined',
@@ -123,7 +141,7 @@ export const textControls = [
     {
       type: 'number',
       label: 'All Corners Border Radius',
-      valueOf: 'borderRadius',
+      valueOf: CONTROL_KEYS.BORDER_RADIUS,
       component: 'Slider',
       props: {
         min: 0,
@@ -136,7 +154,7 @@ export const textControls = [
     {
       type: 'number',
       label: 'Border Top Left Radius',
-      valueOf: 'borderTopLeftRadius',
+      valueOf: CONTROL_KEYS.BORDER_TOP_LEFT_RADIUS,
       component: 'Slider',
       props: {
         min: 0,
@@ -149,7 +167,7 @@ export const textControls = [
     {
       type: 'number',
       label: 'Border Top Right Radius',
-      valueOf: 'borderTopRightRadius',
+      valueOf: CONTROL_KEYS.BORDER_TOP_RIGHT_RADIUS,
       component: 'Slider',
       props: {
         min: 0,
@@ -162,7 +180,7 @@ export const textControls = [
     {
       type: 'number',
       label: 'Border Bottom Left Radius',
-      valueOf: 'borderBottomLeftRadius',
+      valueOf: CONTROL_KEYS.BORDER_BOTTOM_LEFT_RADIUS,
       component: 'Slider',
       props: {
         min: 0,
@@ -175,7 +193,7 @@ export const textControls = [
     {
       type: 'number',
       label: 'Border Bottom Right Radius',
-      valueOf: 'borderBottomRightRadius',
+      valueOf: CONTROL_KEYS.BORDER_BOTTOM_RIGHT_RADIUS,
       component: 'Slider',
       props: {
         min: 0,
@@ -191,7 +209,7 @@ export const textControls = [
     {
       type: 'number',
       label: 'Horizontal Padding',
-      valueOf: 'horizontalPadding', 
+      valueOf: CONTROL_KEYS.HORIZONTAL_PADDING, 
       component: 'Slider',
       props: {
         min: 0,
@@ -204,7 +222,7 @@ export const textControls = [
     {
       type: 'number',
       label: 'Vertical Padding',
-      valueOf: 'verticalPadding', 
+      valueOf: CONTROL_KEYS.VERTICAL_PADDING, 
       component: 'Slider',
       props: {
         min: 0,

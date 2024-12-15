@@ -3,6 +3,7 @@ import { Card, CardContent, Typography } from '@mui/material';
 import { renderControl } from '../controls/renderControl'; 
 import { useDispatch, useSelector } from 'react-redux';
 import { updateControl, removeControl } from '../../redux/controlers/controlActions'; 
+import {CONTROL_KEYS} from '../../config/controls';
 
 const BorderRadiusControls = ({ componentId, controlsConfig }) => {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ const BorderRadiusControls = ({ componentId, controlsConfig }) => {
   // Funkcija, kuri atnaujina kampus
   const handleChange = (controlName, value) => {
     // Handle borderRadius property
-    if (controlName === "borderRadius") {
+    if (controlName === CONTROL_KEYS.BORDER_RADIUS) {
       // If borderRadius is changed, update all four border radii
       const borderRadiusValues = {
         borderTopLeftRadius: value,
@@ -25,7 +26,7 @@ const BorderRadiusControls = ({ componentId, controlsConfig }) => {
         dispatch(updateControl(componentId, key, borderRadiusValues[key], false));
       });
   
-    } else if (controlName !== "borderRadius") {
+    } else if (controlName !== CONTROL_KEYS.BORDER_RADIUS) {
       // For other border-specific changes, update that particular border radius only
       dispatch(updateControl(componentId, controlName, value));
     }

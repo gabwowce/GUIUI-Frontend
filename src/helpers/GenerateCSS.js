@@ -1,21 +1,22 @@
 import { camelToKebab } from "./CamelToKebab";
+import {CONTROL_KEYS} from "../config/controls";
 
 export const generateCSS = (styles, selectedFont, textControls, allControls) => {
   let cssString = '';
 
   // Font import
-  const fontControl = textControls.find(control => control.valueOf === 'fontFamily');
+  const fontControl = textControls.find(control => control.valueOf === CONTROL_KEYS.FONT_FAMILY);
   const selectedFontConfig = fontControl?.options.find(option => option.value === selectedFont);
   const fontImport = selectedFontConfig?.import ? `@import url('${selectedFontConfig.import}');\n` : '';
 
   // Border-radius handling
-  const borderRadiusValue = styles['borderRadius']?.value || '';
+  const borderRadiusValue = styles[CONTROL_KEYS.BORDER_RADIUS]?.value || '';
   const borderRadiusCSS = borderRadiusValue ? `  border-radius: ${borderRadiusValue}px;\n` : '';
 
   // Generate padding styles dynamically
   const paddingValues = {
-    horizontal: styles['horizontalPadding']?.value || 0,
-    vertical: styles['verticalPadding']?.value || 0,
+    horizontal: styles[CONTROL_KEYS.HORIZONTAL_PADDING]?.value || 0,
+    vertical: styles[CONTROL_KEYS.VERTICAL_PADDING]?.value || 0,
   };
 
   const paddingCSS = `  padding: ${paddingValues.vertical}px ${paddingValues.horizontal}px;\n`;
@@ -23,7 +24,7 @@ export const generateCSS = (styles, selectedFont, textControls, allControls) => 
   // Generate other styles excluding padding and border-radius
   const otherStyles = Object.entries(styles)
     .filter(([key, { shouldGenerate }]) => 
-      shouldGenerate && !['borderRadius', 'horizontalPadding', 'verticalPadding'].includes(key)
+      shouldGenerate && ![CONTROL_KEYS.BORDER_RADIUS, CONTROL_KEYS.HORIZONTAL_PADDING, CONTROL_KEYS.VERTICAL_PADDING].includes(key)
     )
     .map(([key, { value }]) => {
       const controlConfig = allControls.find(control => control.valueOf === key);
