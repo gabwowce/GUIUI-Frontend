@@ -5,7 +5,8 @@ import { useSelector } from 'react-redux';
 import PreviewGeneratorTemplate from '../PreviewGeneratorTemplate';
 import TextControls from '../../components/controls/TextControls';
 import BorderRadiusControls from '../controls/BorderRadiusControls';
-import {textControls, borderRadiusControls} from "../../config/controls";
+import PaddingControls from '../controls/PaddingControls';
+import {textControls, borderRadiusControls, paddingControls} from "../../config/controls";
 import { generateCSS } from '../../helpers/GenerateCSS';
 
 import { styled } from '@mui/material/styles';
@@ -13,7 +14,7 @@ import { Box } from '@mui/material';
 
 
 const componentId = "button";
-const allControls = [...textControls, ...borderRadiusControls];
+const allControls = [...textControls, ...borderRadiusControls, ...paddingControls];
 
 const ButtonGenerator = () => {
   const styles = useSelector((state) => {
@@ -57,6 +58,7 @@ const ButtonGenerator = () => {
       />
       <TextControls componentId={componentId} controlsConfig={textControls}/>
       <BorderRadiusControls componentId={componentId} controlsConfig={borderRadiusControls}/>
+      <PaddingControls componentId={componentId} controlsConfig={paddingControls}/>
     </StyledBox>
   );
 };

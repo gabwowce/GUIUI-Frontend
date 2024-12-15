@@ -1,39 +1,40 @@
 import { camelToKebab } from "./CamelToKebab";
 
 export const generateCSS = (styles, selectedFont, textControls, allControls) => {
-    let cssString = '';
-  
-    // Find the font import configuration
-    const fontControl = textControls.find(control => control.valueOf === 'fontFamily');
-    const selectedFontConfig = fontControl?.options.find(option => option.value === selectedFont);
-    
-    // If the font import URL is available, add it to CSS before .custom-button
-    let fontImport = '';
-    if (selectedFontConfig?.import) {
-      fontImport = `@import url('${selectedFontConfig.import}');\n`;
-    }
-  
-    // Generate the remaining CSS, but make sure border-radius is handled first
-    const borderRadiusValue = styles['borderRadius'] ? styles['borderRadius'].value : '';
-    const borderRadiusUnit = 'px';  // Ensure unit is always 'px' for border-radius
-    const borderRadiusCSS = borderRadiusValue ? `  border-radius: ${borderRadiusValue}${borderRadiusUnit};\n` : '';
-  
-    // Now generate the rest of the styles for other border radii
-    const otherBorderRadiusStyles = Object.entries(styles)
-      .filter(([key, { shouldGenerate }]) => shouldGenerate && key !== 'borderRadius') // Exclude borderRadius from initial filtering
-      .map(([key, { value }]) => { // Ensure we're accessing the `value` property here
-        const controlConfig = allControls.find(control => control.valueOf === key);  
-        const unit = controlConfig ? controlConfig.props.unit : ''; 
-  
-        // Add unit if it's a number and unit exists
-        const valueWithUnit = typeof value === 'number' && unit ? `${value}${unit}` : value;
-        return `  ${camelToKebab(key)}: ${valueWithUnit};`; 
-      })
-      .join('\n');
-  
-    // Combine everything: font import, border-radius first, then other border-radius styles
-    cssString = `${fontImport}\n.custom-button {\n${borderRadiusCSS}${otherBorderRadiusStyles}\n}`;
-  
-    return cssString;
+  let cssString = '';
+
+  // Font import
+  const fontControl = textControls.find(control => control.valueOf === 'fontFamily');
+  const selectedFontConfig = fontControl?.options.find(option => option.value === selectedFont);
+  const fontImport = selectedFontConfig?.import ? `@import url('${selectedFontConfig.import}');\n` : '';
+
+  // Border-radius handling
+  const borderRadiusValue = styles['borderRadius']?.value || '';
+  const borderRadiusCSS = borderRadiusValue ? `  border-radius: ${borderRadiusValue}px;\n` : '';
+
+  // Generate padding styles dynamically
+  const paddingValues = {
+    horizontal: styles['horizontalPadding']?.value || 0,
+    vertical: styles['verticalPadding']?.value || 0,
   };
 
+  const paddingCSS = `  padding: ${paddingValues.vertical}px ${paddingValues.horizontal}px;\n`;
+
+  // Generate other styles excluding padding and border-radius
+  const otherStyles = Object.entries(styles)
+    .filter(([key, { shouldGenerate }]) => 
+      shouldGenerate && !['borderRadius', 'horizontalPadding', 'verticalPadding'].includes(key)
+    )
+    .map(([key, { value }]) => {
+      const controlConfig = allControls.find(control => control.valueOf === key);
+      const unit = controlConfig ? controlConfig.props.unit : '';
+      const valueWithUnit = typeof value === 'number' && unit ? `${value}${unit}` : value;
+      return `  ${camelToKebab(key)}: ${valueWithUnit};`;
+    })
+    .join('\n');
+
+  // Combine everything into the final CSS string
+  cssString = `${fontImport}\n.custom-button {\n${borderRadiusCSS}${paddingCSS}${otherStyles}\n}`;
+
+  return cssString;
+};

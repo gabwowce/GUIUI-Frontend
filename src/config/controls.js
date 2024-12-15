@@ -191,26 +191,29 @@ export const textControls = [
     {
       type: 'number',
       label: 'Horizontal Padding',
+      valueOf: 'horizontalPadding', 
       component: 'Slider',
       props: {
         min: 0,
         max: 100,
         step: 1,
-        defaultValue: 20, 
+        unit: 'px',
+        initialValue: 40, 
       },
     },
     {
       type: 'number',
       label: 'Vertical Padding',
+      valueOf: 'verticalPadding', 
       component: 'Slider',
       props: {
         min: 0,
-        max: 1000,
+        max: 100,
         step: 1,
-        defaultValue: 50, 
+        unit: 'px',
+        initialValue: 10, 
       },
     },
-    
   ];
   
 

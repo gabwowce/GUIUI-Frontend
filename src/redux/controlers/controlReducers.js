@@ -1,13 +1,15 @@
 import { UPDATE_CONTROL, REMOVE_CONTROL } from './controlActions';
-import { textControls } from '../../config/controls';
+import { textControls, paddingControls, borderRadiusControls } from '../../config/controls';
 
-const generateInitialState = (controls) => {
+const generateInitialState = (allControls) => {
   const initialButtonState = {};
-  const buttonTextControl = controls.find(control => control.valueOf === 'content');
-  const buttonText = buttonTextControl ? buttonTextControl.props.initialValue : "Click me";
+  let buttonText = "Click me"; // Default value
 
-  controls.forEach(({ valueOf, props: { initialValue = "" } }) => {
-    if (valueOf !== 'content') {
+  // Iteruojame per visus valdiklius
+  allControls.forEach(({ valueOf, props: { initialValue = "" } }) => {
+    if (valueOf === 'content') {
+      buttonText = initialValue || buttonText; // Pakeičiam "content" tekstą
+    } else {
       initialButtonState[valueOf] = { value: initialValue, shouldGenerate: true }; 
     }
   });
@@ -21,7 +23,8 @@ const generateInitialState = (controls) => {
     },
   };
 };
-const initialState = generateInitialState(textControls);
+const allControls = [...textControls, ...paddingControls, ...borderRadiusControls];
+const initialState = generateInitialState(allControls);
 
 export const controlsReducer = (state = initialState, action) => {
   switch (action.type) {

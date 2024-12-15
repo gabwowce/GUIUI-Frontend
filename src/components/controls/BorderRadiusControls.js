@@ -32,11 +32,11 @@ const BorderRadiusControls = ({ componentId, controlsConfig }) => {
   
     // If value is 0, remove the specific control if it exists
     if (value === 0) {
-      if (componentState[controlName]) {
-        dispatch(removeControl(componentId, controlName));
-      } else {
-        return;
-      }
+      // if (componentState[controlName]) {
+      //   dispatch(removeControl(componentId, controlName));
+      // } else {
+      //   return;
+      // }
     } else {
       // Otherwise update the control value
       dispatch(updateControl(componentId, controlName, value));
